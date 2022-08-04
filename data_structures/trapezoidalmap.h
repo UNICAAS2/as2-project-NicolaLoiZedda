@@ -1,11 +1,13 @@
 #ifndef TRAPEZOIDALMAP_H
 #define TRAPEZOIDALMAP_H
 
-
-class trapezoidalmap
+class TrapezoidalMap
 {
 public:
-    trapezoidalmap();
+    TrapezoidalMap();
+
+private:
+
 };
 
 #endif // TRAPEZOIDALMAP_H
