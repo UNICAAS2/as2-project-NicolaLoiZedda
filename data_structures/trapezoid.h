@@ -14,10 +14,10 @@ public:
     const cg3::Point2d getLeftPoint();
     const cg3::Point2d getRightPoint();
 
-    const Trapezoid getTop();
-    const Trapezoid getBottom();
-    const Trapezoid getLeftPoint();
-    const Trapezoid getRightPoint();
+    const Trapezoid getUpperLeftNeighbor();
+    const Trapezoid getUpperRightNeighbor();
+    const Trapezoid getLowerLeftNeighbor();
+    const Trapezoid getLowerRightNeighbor();
 
 private:
     cg3::Segment2d top;
