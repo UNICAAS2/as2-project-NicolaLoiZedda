@@ -1,6 +1,6 @@
 #include "trapezoidalmap.h"
 
-trapezoidalmap::trapezoidalmap()
+TrapezoidalMap::TrapezoidalMap()
 {
 
 }

@@ -7,17 +7,31 @@
 class Trapezoid
 {
 public:
+    // constructors
     Trapezoid();
+    Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint);
+    Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint,
+              Trapezoid* upperLeftNeighbor, Trapezoid* upperRightNeighbor, Trapezoid* lowerLeftNeighbor, Trapezoid* lowerRightNeighbor);
 
-    const cg3::Segment2d getTop();
-    const cg3::Segment2d getBottom();
-    const cg3::Point2d getLeftPoint();
-    const cg3::Point2d getRightPoint();
+    // getter methods
+    const cg3::Segment2d& getTop() const;
+    const cg3::Segment2d& getBottom() const;
+    const cg3::Point2d& getLeftPoint() const;
+    const cg3::Point2d& getRightPoint() const;
+    const Trapezoid& getUpperLeftNeighbor() const;
+    const Trapezoid& getUpperRightNeighbor() const;
+    const Trapezoid& getLowerLeftNeighbor() const;
+    const Trapezoid& getLowerRightNeighbor() const;
 
-    const Trapezoid getUpperLeftNeighbor();
-    const Trapezoid getUpperRightNeighbor();
-    const Trapezoid getLowerLeftNeighbor();
-    const Trapezoid getLowerRightNeighbor();
+    // setter methods
+    void setTop(cg3::Segment2d& top);
+    void setBottom(cg3::Segment2d& bottom);
+    void setLeftPoint(cg3::Segment2d& leftPoint);
+    void setRightPoint(cg3::Segment2d& rightPoint);
+    void setUpperLeftNeighbor(Trapezoid* upperLeftNeighbor);
+    void setUpperRightNeighbor(Trapezoid* upperRightNeighbor);
+    void setLowerLeftNeighbor(Trapezoid* lowerLeftNeighbor);
+    void setLowerRightNeighbor(Trapezoid* lowerRightNeighbor);
 
 private:
     cg3::Segment2d top;
@@ -25,10 +39,10 @@ private:
     cg3::Point2d leftPoint;
     cg3::Point2d rightPoint;
 
-    Trapezoid upperLeftNeighbor;
-    Trapezoid upperRightNeighbor;
-    Trapezoid lowerLeftNeighbor;
-    Trapezoid lowerRightNeighbor;
+    Trapezoid* upperLeftNeighbor;
+    Trapezoid* upperRightNeighbor;
+    Trapezoid* lowerLeftNeighbor;
+    Trapezoid* lowerRightNeighbor;
 };
 
 #endif // TRAPEZOID_H
