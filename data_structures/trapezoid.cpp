@@ -87,22 +87,22 @@ void Trapezoid::setRightPoint(const cg3::Point2d& rightPoint)
     Trapezoid::rightPoint = rightPoint;
 }
 
-void Trapezoid::setUpperLeftNeighbor(const Trapezoid* upperLeftNeighbor)
+void Trapezoid::setUpperLeftNeighbor(Trapezoid* upperLeftNeighbor)
 {
     Trapezoid::upperLeftNeighbor = upperLeftNeighbor;
 }
 
-void Trapezoid::setUpperRightNeighbor(const Trapezoid* upperRightNeighbor)
+void Trapezoid::setUpperRightNeighbor(Trapezoid* upperRightNeighbor)
 {
     Trapezoid::upperRightNeighbor = upperRightNeighbor;
 }
 
-void Trapezoid::setLowerLeftNeighbor(const Trapezoid* lowerLeftNeighbor)
+void Trapezoid::setLowerLeftNeighbor(Trapezoid* lowerLeftNeighbor)
 {
     Trapezoid::lowerLeftNeighbor = lowerLeftNeighbor;
 }
 
-void Trapezoid::setLowerRightNeighbor(const Trapezoid* lowerRightNeighbor)
+void Trapezoid::setLowerRightNeighbor(Trapezoid* lowerRightNeighbor)
 {
     Trapezoid::lowerRightNeighbor = lowerRightNeighbor;
 }

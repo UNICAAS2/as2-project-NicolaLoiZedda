@@ -14,9 +14,9 @@ public:
 
 private:
     uint numberOfSegments;
-    std::list<cg3::Segment2d> segments;
-    std::list<cg3::Point2d> endpoints;
-    std::list<Trapezoid> trapezoids;
+    std::vector<cg3::Segment2d> segments;
+    std::vector<cg3::Point2d> endpoints;
+    std::vector<Trapezoid> trapezoids;
     DirectedAcyclicGraph DAG;
 };
 

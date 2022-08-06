@@ -41,6 +41,7 @@ DISTFILES += \
 
 SOURCES +=  \
     data_structures/directedacyclicgraph.cpp \
+    data_structures/node.cpp \
     data_structures/segment_intersection_checker.cpp \
     data_structures/trapezoid.cpp \
     data_structures/trapezoidalmap.cpp \
@@ -55,6 +56,7 @@ FORMS += \
 
 HEADERS += \
     data_structures/directedacyclicgraph.h \
+    data_structures/node.h \
     data_structures/segment_intersection_checker.h \
     data_structures/trapezoid.h \
     data_structures/trapezoidalmap.h \

@@ -13,7 +13,7 @@ public:
     Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint,
               Trapezoid* upperLeftNeighbor, Trapezoid* upperRightNeighbor, Trapezoid* lowerLeftNeighbor, Trapezoid* lowerRightNeighbor);
 
-    // getter methods
+    // getters
     const cg3::Segment2d& getTop() const;
     const cg3::Segment2d& getBottom() const;
     const cg3::Point2d& getLeftPoint() const;
@@ -23,11 +23,11 @@ public:
     const Trapezoid& getLowerLeftNeighbor() const;
     const Trapezoid& getLowerRightNeighbor() const;
 
-    // setter methods
-    void setTop(cg3::Segment2d& top);
-    void setBottom(cg3::Segment2d& bottom);
-    void setLeftPoint(cg3::Segment2d& leftPoint);
-    void setRightPoint(cg3::Segment2d& rightPoint);
+    // setters
+    void setTop(const cg3::Segment2d& top);
+    void setBottom(const cg3::Segment2d& bottom);
+    void setLeftPoint(const cg3::Point2d& leftPoint);
+    void setRightPoint(const cg3::Point2d& rightPoint);
     void setUpperLeftNeighbor(Trapezoid* upperLeftNeighbor);
     void setUpperRightNeighbor(Trapezoid* upperRightNeighbor);
     void setLowerLeftNeighbor(Trapezoid* lowerLeftNeighbor);
