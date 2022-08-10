@@ -11,6 +11,8 @@ class TrapezoidalMap
 public:
     TrapezoidalMap();
 
+    void addTrapezoid(Trapezoid& trapezoid);
+
 private:
     uint numberOfSegments;
     std::vector<cg3::Segment2d> segments;

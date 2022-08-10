@@ -5,8 +5,10 @@ namespace TrapezoidalMapConstructionAndQuery
 
     void initializeStructures(TrapezoidalMap& tm, DirectedAcyclicGraph& dag)
     {
-        tm.addTrapezoid();
-        dag.insertNode();
+        Trapezoid trapezoid = Trapezoid();
+        Node node = Node(Node::leafnode, trapezoid);
+        tm.addTrapezoid(trapezoid);
+        dag.insertNode(node);
     }
 
 
@@ -56,13 +58,13 @@ namespace TrapezoidalMapConstructionAndQuery
         else
         {
             segments = segmentsRandomPermutation(segments);
-
+/*
             for (uint i = 0; i < n; i++)
             {
                 Trapezoid* intersectedTrapezoids = followSegment(tm, dag, segments[i]);
 
             }
-
+*/
         }
     }
 

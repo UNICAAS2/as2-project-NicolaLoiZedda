@@ -4,7 +4,56 @@
 
 Node::Node()
 {
+    this->leftChild = nullptr;
+    this->rightChild = nullptr;
+}
 
+Node::Node(nodeType type, const cg3::Point2d& xNode)
+{
+    this->type = type;
+    this->xNode = xNode;
+    this->leftChild = nullptr;
+    this->rightChild = nullptr;
+}
+
+Node::Node(nodeType type, const cg3::Segment2d& yNode)
+{
+    this->type = type;
+    this->yNode = yNode;
+    this->leftChild = nullptr;
+    this->rightChild = nullptr;
+}
+
+Node::Node(nodeType type, const Trapezoid& leaf)
+{
+    this->type = type;
+    this->leaf = leaf;
+    this->leftChild = nullptr;
+    this->rightChild = nullptr;
+}
+
+Node::Node(nodeType type, const cg3::Point2d& xNode, Node* const leftChild, Node* const rightChild)
+{
+    this->type = type;
+    this->xNode = xNode;
+    this->leftChild = leftChild;
+    this->rightChild = rightChild;
+}
+
+Node::Node(nodeType type, const cg3::Segment2d& yNode, Node* const leftChild, Node* const rightChild)
+{
+    this->type = type;
+    this->yNode = yNode;
+    this->leftChild = leftChild;
+    this->rightChild = rightChild;
+}
+
+Node::Node(nodeType type, const Trapezoid& leaf, Node* const leftChild, Node* const rightChild)
+{
+    this->type = type;
+    this->leaf = leaf;
+    this->leftChild = leftChild;
+    this->rightChild = rightChild;
 }
 
 const Node::nodeType& Node::getType() const
@@ -14,17 +63,17 @@ const Node::nodeType& Node::getType() const
 
 const cg3::Point2d& Node::getXNode() const
 {
-    return *xNode;
+    return xNode;
 }
 
 const cg3::Segment2d& Node::getYNode() const
 {
-    return *yNode;
+    return yNode;
 }
 
 const Trapezoid& Node::getLeaf() const
 {
-    return *leaf;
+    return leaf;
 }
 
 const Node& Node::getLeftChild() const
@@ -38,32 +87,32 @@ const Node& Node::getRightChild() const
 }
 
 // setter methods
-void setType(Node::nodeType type)
+void Node::setType(nodeType type)
 {
-    type = type;
+    this->type = type;
 }
 
-void setXNode(const cg3::Point2d* xNode)
+void Node::setXNode(const cg3::Point2d& xNode)
 {
-    xNode = xNode;
+    this->xNode = xNode;
 }
 
-void setYNode(const cg3::Segment2d* yNode)
+void Node::setYNode(const cg3::Segment2d& yNode)
 {
-    yNode = yNode;
+    this->yNode = yNode;
 }
 
-void setLeaf(Trapezoid* leaf)
+void Node::setLeaf(const Trapezoid& leaf)
 {
-    leaf = leaf;
+    this->leaf = leaf;
 }
 
-void setLeftChild(const Node* leftChild)
+void Node::setLeftChild(Node* const leftChild)
 {
-    leftChild = leftChild;
+    this->leftChild = leftChild;
 }
 
-void setRightChild(const Node* rightChild)
+void Node::setRightChild(Node* const rightChild)
 {
-    rightChild = rightChild;
+    this->rightChild = rightChild;
 }

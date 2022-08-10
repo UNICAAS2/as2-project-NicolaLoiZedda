@@ -11,6 +11,11 @@ Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, co
     Trapezoid::bottom = bottom;
     Trapezoid::leftPoint = leftPoint;
     Trapezoid::rightPoint = rightPoint;
+
+    Trapezoid::upperLeftNeighbor = nullptr;
+    Trapezoid::upperRightNeighbor = nullptr;
+    Trapezoid::lowerLeftNeighbor = nullptr;
+    Trapezoid::lowerRightNeighbor = nullptr;
 }
 
 Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint,
