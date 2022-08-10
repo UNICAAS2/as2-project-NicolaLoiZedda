@@ -5,7 +5,6 @@
 #include <cg3/geometry/segment2.h>
 
 #include <data_structures/trapezoid.h>
-#include <data_structures/directedacyclicgraph.h>
 
 class TrapezoidalMap
 {
@@ -17,7 +16,6 @@ private:
     std::vector<cg3::Segment2d> segments;
     std::vector<cg3::Point2d> endpoints;
     std::vector<Trapezoid> trapezoids;
-    DirectedAcyclicGraph DAG;
 };
 
 #endif // TRAPEZOIDALMAP_H

@@ -8,6 +8,10 @@ class DirectedAcyclicGraph
 public:
     DirectedAcyclicGraph();
 
+    const Node& getNode(uint i) const;
+    void insertNode(Node& node);
+
+
 private:
     std::vector<Node> DAG;
 };
