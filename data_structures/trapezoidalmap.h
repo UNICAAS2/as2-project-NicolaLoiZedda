@@ -12,6 +12,7 @@ public:
     TrapezoidalMap();
 
     void addTrapezoid(Trapezoid& trapezoid);
+    void splitInFour(Trapezoid& trapezoid);
 
 private:
     uint numberOfSegments;
