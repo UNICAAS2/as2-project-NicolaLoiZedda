@@ -38,6 +38,7 @@ namespace TrapezoidalMapConstructionAndQuery
 
     }
 
+    // resume from here !!!
     const std::vector<Trapezoid> followSegment(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, const cg3::Segment2d& segment)
     {
         cg3::Point2d p = segment.p1();
@@ -50,6 +51,20 @@ namespace TrapezoidalMapConstructionAndQuery
 
     }
 
+    void buildTrapezoidalMap(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, cg3::Segment2d& segment)
+    {
+        std::vector<Trapezoid> intersectedTrapezoids = followSegment(tm, dag, segment);
+
+        if (intersectedTrapezoids.size() == 1)
+        {
+            tm.splitInFour(intersectedTrapezoids[0], segment);
+            //dag.splitLeaf()
+        }
+
+        // to be continued
+
+    }
+/*
     void buildTrapezoidalMap(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, std::vector<cg3::Segment2d>& segments)
     {
         uint n = segments.size();
@@ -66,7 +81,7 @@ namespace TrapezoidalMapConstructionAndQuery
 
                 if (intersectedTrapezoids.size() == 1)
                 {
-                    tm.splitInFour(intersectedTrapezoids[0]);
+                    tm.splitInFour(intersectedTrapezoids[0], segments[]);
                     //dag.splitLeaf()
                 }
 
@@ -76,5 +91,5 @@ namespace TrapezoidalMapConstructionAndQuery
 
         }
     }
-
+*/
 }

@@ -12,10 +12,11 @@ public:
     TrapezoidalMap();
 
     void addTrapezoid(Trapezoid& trapezoid);
-    void splitInFour(Trapezoid& trapezoid);
+    void addTrapezoidAtIndex(Trapezoid& trapezoid, const uint index);
+    void splitInFour(Trapezoid& trapezoid, const cg3::Segment2d& segment);
 
 private:
-    uint numberOfSegments;
+    //uint numberOfSegments;
     std::vector<cg3::Segment2d> segments;
     std::vector<cg3::Point2d> endpoints;
     std::vector<Trapezoid> trapezoids;
