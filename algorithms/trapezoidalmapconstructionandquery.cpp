@@ -8,47 +8,59 @@ namespace TrapezoidalMapConstructionAndQuery
         Trapezoid trapezoid = Trapezoid();
         Node node = Node(Node::leafnode, trapezoid);
         tm.addTrapezoid(trapezoid);
-        dag.insertNode(node);
+        dag.addNode(node);
     }
 
-    const std::vector<cg3::Segment2d>& segmentsRandomPermutation(std::vector<cg3::Segment2d>& segments)
+    const Trapezoid& searchPointInDAG(DirectedAcyclicGraph& dag, cg3::Point2d& queryPoint)
     {
-        uint n = segments.size();
+        Node node = dag.getRoot();
 
-        if (n > 1)
+        while (node.getType() != Node::leafnode)
         {
-            srand(time(NULL));
-
-            for (uint i = 0; i < n; i++)
+            if (node.getType() == Node::xnode)
             {
-                uint index = rand() % n;
-
-                cg3::Segment2d tmp = segments[i];
-                segments[i] = segments[index];
-                segments[index] = tmp;
+                if (node.getXNode().x() < queryPoint.x())
+                    node = node.getLeftChild();
+                else
+                    node = node.getRightChild();
+            }
+            else
+            {
+                if (node.getType() == Node::ynode)
+                {
+                    if (cg3::isPointAtLeft(node.getYNode(), queryPoint))
+                        node = node.getLeftChild();
+                    else
+                        node = node.getRightChild();
+                }
             }
         }
 
-        return segments;
+        return node.getLeaf();
     }
 
-    const Trapezoid& searchPointInDAG(DirectedAcyclicGraph dag, cg3::Point2d queryPoint)
-    {
-        // to be continued
-
-    }
-
-    // resume from here !!!
     const std::vector<Trapezoid> followSegment(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, const cg3::Segment2d& segment)
     {
+        std::vector<Trapezoid> intersectedTrapezoids;
         cg3::Point2d p = segment.p1();
         cg3::Point2d q = segment.p2();
+        uint i = 0;
 
-        Trapezoid t0 = searchPointInDAG(dag, p);
+        intersectedTrapezoids[0] = searchPointInDAG(dag, p);
+        cg3::Point2d rightP = intersectedTrapezoids[0].getRightPoint();
 
-        // to be continued
+        while(rightP.x() <= q.x())
+        {
+            if (cg3::isPointAtLeft(segment, rightP))
+                intersectedTrapezoids[i+1] = intersectedTrapezoids[i].getLowerRightNeighbor();
+            else
+                intersectedTrapezoids[i+1] = intersectedTrapezoids[i].getUpperRightNeighbor();
 
+            rightP = intersectedTrapezoids[i+1].getRightPoint();
+            i++;
+        }
 
+        return intersectedTrapezoids;
     }
 
     void buildTrapezoidalMap(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, cg3::Segment2d& segment)
@@ -60,36 +72,13 @@ namespace TrapezoidalMapConstructionAndQuery
             tm.splitInFour(intersectedTrapezoids[0], segment);
             //dag.splitLeaf()
         }
+/*
+        else
+        {
 
+        }
+*/
         // to be continued
 
     }
-/*
-    void buildTrapezoidalMap(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, std::vector<cg3::Segment2d>& segments)
-    {
-        uint n = segments.size();
-
-        if (n == 0)
-            return;
-        else
-        {
-            segments = segmentsRandomPermutation(segments);
-
-            for (uint i = 0; i < n; i++)
-            {
-                std::vector<Trapezoid> intersectedTrapezoids = followSegment(tm, dag, segments[i]);
-
-                if (intersectedTrapezoids.size() == 1)
-                {
-                    tm.splitInFour(intersectedTrapezoids[0], segments[]);
-                    //dag.splitLeaf()
-                }
-
-                // to be continued
-
-            }
-
-        }
-    }
-*/
 }

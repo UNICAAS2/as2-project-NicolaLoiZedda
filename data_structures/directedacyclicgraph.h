@@ -9,7 +9,8 @@ public:
     DirectedAcyclicGraph();
 
     const Node& getNode(uint i) const;
-    void insertNode(Node& node);
+    const Node& getRoot() const;
+    void addNode(Node& node);
 
 
 private:

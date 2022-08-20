@@ -10,7 +10,12 @@ const Node& DirectedAcyclicGraph::getNode(uint i) const
     return DAG[i];
 }
 
-void DirectedAcyclicGraph::insertNode(Node& node)
+const Node& DirectedAcyclicGraph::getRoot() const
+{
+    return DirectedAcyclicGraph::getNode(0);
+}
+
+void DirectedAcyclicGraph::addNode(Node& node)
 {
     DAG.push_back(node);
 }

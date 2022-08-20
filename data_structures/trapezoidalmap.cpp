@@ -2,17 +2,18 @@
 
 TrapezoidalMap::TrapezoidalMap()
 {
-
+    Trapezoid trapezoid = Trapezoid();
+    trapezoids.push_back(trapezoid);
 }
 
 void TrapezoidalMap::addTrapezoid(Trapezoid& trapezoid)
 {
-    this->trapezoids.push_back(trapezoid);
+    trapezoids.push_back(trapezoid);
 }
 
 void TrapezoidalMap::addTrapezoidAtIndex(Trapezoid& trapezoid, const uint index)
 {
-    this->trapezoids[index] = trapezoid;
+    trapezoids[index] = trapezoid;
 }
 
 void TrapezoidalMap::splitInFour(Trapezoid& trapezoid, const cg3::Segment2d &segment)
