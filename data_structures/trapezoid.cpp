@@ -1,25 +1,15 @@
 #include "trapezoid.h"
 
-Trapezoid::Trapezoid()
-{
-
-}
-
 Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint)
 {
     Trapezoid::top = top;
     Trapezoid::bottom = bottom;
     Trapezoid::leftPoint = leftPoint;
     Trapezoid::rightPoint = rightPoint;
-
-    Trapezoid::upperLeftNeighbor = nullptr;
-    Trapezoid::upperRightNeighbor = nullptr;
-    Trapezoid::lowerLeftNeighbor = nullptr;
-    Trapezoid::lowerRightNeighbor = nullptr;
 }
 
 Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint,
-          Trapezoid* upperLeftNeighbor, Trapezoid* upperRightNeighbor, Trapezoid* lowerLeftNeighbor, Trapezoid* lowerRightNeighbor)
+          size_t upperLeftNeighbor, size_t upperRightNeighbor, size_t lowerLeftNeighbor, size_t lowerRightNeighbor)
 {
     Trapezoid::top = top;
     Trapezoid::bottom = bottom;
@@ -52,24 +42,24 @@ const cg3::Point2d& Trapezoid::getRightPoint() const
     return rightPoint;
 }
 
-const Trapezoid& Trapezoid::getUpperLeftNeighbor() const
+size_t Trapezoid::getUpperLeftNeighbor() const
 {
-    return *upperLeftNeighbor;
+    return upperLeftNeighbor;
 }
 
-const Trapezoid& Trapezoid::getUpperRightNeighbor() const
+size_t Trapezoid::getUpperRightNeighbor() const
 {
-    return *upperRightNeighbor;
+    return upperRightNeighbor;
 }
 
-const Trapezoid& Trapezoid::getLowerLeftNeighbor() const
+size_t Trapezoid::getLowerLeftNeighbor() const
 {
-    return *lowerLeftNeighbor;
+    return lowerLeftNeighbor;
 }
 
-const Trapezoid& Trapezoid::getLowerRightNeighbor() const
+size_t Trapezoid::getLowerRightNeighbor() const
 {
-    return *lowerRightNeighbor;
+    return lowerRightNeighbor;
 }
 
 void Trapezoid::setTop(const cg3::Segment2d& top)
@@ -92,22 +82,22 @@ void Trapezoid::setRightPoint(const cg3::Point2d& rightPoint)
     Trapezoid::rightPoint = rightPoint;
 }
 
-void Trapezoid::setUpperLeftNeighbor(Trapezoid* upperLeftNeighbor)
+void Trapezoid::setUpperLeftNeighbor(const size_t upperLeftNeighbor)
 {
     Trapezoid::upperLeftNeighbor = upperLeftNeighbor;
 }
 
-void Trapezoid::setUpperRightNeighbor(Trapezoid* upperRightNeighbor)
+void Trapezoid::setUpperRightNeighbor(size_t upperRightNeighbor)
 {
     Trapezoid::upperRightNeighbor = upperRightNeighbor;
 }
 
-void Trapezoid::setLowerLeftNeighbor(Trapezoid* lowerLeftNeighbor)
+void Trapezoid::setLowerLeftNeighbor(size_t lowerLeftNeighbor)
 {
     Trapezoid::lowerLeftNeighbor = lowerLeftNeighbor;
 }
 
-void Trapezoid::setLowerRightNeighbor(Trapezoid* lowerRightNeighbor)
+void Trapezoid::setLowerRightNeighbor(size_t lowerRightNeighbor)
 {
     Trapezoid::lowerRightNeighbor = lowerRightNeighbor;
 }

@@ -4,44 +4,31 @@
 #include <cg3/geometry/point2.h>
 #include <cg3/geometry/segment2.h>
 
-#include <data_structures/trapezoid.h>
-
 class Node
 {
 public:
-    enum nodeType {xnode, ynode, leafnode};
+    enum nodeType {point_node, segment_node, trapezoid_node};
 
-    Node();
-    Node(nodeType type, const cg3::Point2d& xNode);
-    Node(nodeType type, const cg3::Segment2d& yNode);
-    Node(nodeType type, const Trapezoid& leaf);
-    Node(nodeType type, const cg3::Point2d& xNode, Node* const leftChild, Node* const rightChild);
-    Node(nodeType type, const cg3::Segment2d& yNode, Node* const leftChild, Node* const rightChild);
-    Node(nodeType type, const Trapezoid& leaf, Node* const leftChild, Node* const rightChild);
+    Node(nodeType type, const size_t index);
+    Node(nodeType type, const size_t index, const size_t leftChild, const size_t rightChild);
 
     // getter methods
     const nodeType& getType() const;
-    const cg3::Point2d& getXNode() const;
-    const cg3::Segment2d& getYNode() const;
-    const Trapezoid& getLeaf() const;
-    const Node& getLeftChild() const;
-    const Node& getRightChild() const;
+    size_t getIndex() const;
+    size_t getLeftChild() const;
+    size_t getRightChild() const;
 
     // setter methods
     void setType(nodeType type);
-    void setXNode(const cg3::Point2d& xNode);
-    void setYNode(const cg3::Segment2d& yNode);
-    void setLeaf(const Trapezoid& leaf);
-    void setLeftChild(Node* const leftChild);
-    void setRightChild(Node* const rightChild);
+    void setIndex(const size_t index);
+    void setLeftChild(const size_t leftChild);
+    void setRightChild(const size_t rightChild);
 
 private:
     nodeType type;
-    cg3::Point2d xNode;
-    cg3::Segment2d yNode;
-    Trapezoid leaf;
-    Node* leftChild;
-    Node* rightChild;
+    size_t index;
+    size_t leftChild;
+    size_t rightChild;
 };
 
 #endif // NODE_H

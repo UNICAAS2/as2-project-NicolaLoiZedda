@@ -2,56 +2,16 @@
 
 #include <data_structures/trapezoid.h>
 
-Node::Node()
-{
-    this->leftChild = nullptr;
-    this->rightChild = nullptr;
-}
-
-Node::Node(nodeType type, const cg3::Point2d& xNode)
+Node::Node(nodeType type, const size_t index)
 {
     this->type = type;
-    this->xNode = xNode;
-    this->leftChild = nullptr;
-    this->rightChild = nullptr;
+    this->index = index;
 }
 
-Node::Node(nodeType type, const cg3::Segment2d& yNode)
+Node::Node(nodeType type, const size_t index, const size_t leftChild, const size_t rightChild)
 {
     this->type = type;
-    this->yNode = yNode;
-    this->leftChild = nullptr;
-    this->rightChild = nullptr;
-}
-
-Node::Node(nodeType type, const Trapezoid& leaf)
-{
-    this->type = type;
-    this->leaf = leaf;
-    this->leftChild = nullptr;
-    this->rightChild = nullptr;
-}
-
-Node::Node(nodeType type, const cg3::Point2d& xNode, Node* const leftChild, Node* const rightChild)
-{
-    this->type = type;
-    this->xNode = xNode;
-    this->leftChild = leftChild;
-    this->rightChild = rightChild;
-}
-
-Node::Node(nodeType type, const cg3::Segment2d& yNode, Node* const leftChild, Node* const rightChild)
-{
-    this->type = type;
-    this->yNode = yNode;
-    this->leftChild = leftChild;
-    this->rightChild = rightChild;
-}
-
-Node::Node(nodeType type, const Trapezoid& leaf, Node* const leftChild, Node* const rightChild)
-{
-    this->type = type;
-    this->leaf = leaf;
+    this->index = index;
     this->leftChild = leftChild;
     this->rightChild = rightChild;
 }
@@ -61,58 +21,37 @@ const Node::nodeType& Node::getType() const
     return type;
 }
 
-const cg3::Point2d& Node::getXNode() const
+size_t Node::getIndex() const
 {
-    return xNode;
+    return index;
 }
 
-const cg3::Segment2d& Node::getYNode() const
+size_t Node::getLeftChild() const
 {
-    return yNode;
+    return leftChild;
 }
 
-const Trapezoid& Node::getLeaf() const
+size_t Node::getRightChild() const
 {
-    return leaf;
+    return rightChild;
 }
 
-const Node& Node::getLeftChild() const
-{
-    return *leftChild;
-}
-
-const Node& Node::getRightChild() const
-{
-    return *rightChild;
-}
-
-// setter methods
 void Node::setType(nodeType type)
 {
     this->type = type;
 }
 
-void Node::setXNode(const cg3::Point2d& xNode)
+void Node::setIndex(const size_t index)
 {
-    this->xNode = xNode;
+    this->index = index;
 }
 
-void Node::setYNode(const cg3::Segment2d& yNode)
-{
-    this->yNode = yNode;
-}
-
-void Node::setLeaf(const Trapezoid& leaf)
-{
-    this->leaf = leaf;
-}
-
-void Node::setLeftChild(Node* const leftChild)
+void Node::setLeftChild(const size_t leftChild)
 {
     this->leftChild = leftChild;
 }
 
-void Node::setRightChild(Node* const rightChild)
+void Node::setRightChild(const size_t rightChild)
 {
     this->rightChild = rightChild;
 }

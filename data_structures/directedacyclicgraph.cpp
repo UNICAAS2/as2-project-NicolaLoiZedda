@@ -2,20 +2,21 @@
 
 DirectedAcyclicGraph::DirectedAcyclicGraph()
 {
-
+    Node node = Node(Node::trapezoid_node, 0);
+    dag.push_back(node);
 }
 
-const Node& DirectedAcyclicGraph::getNode(uint i) const
+const Node& DirectedAcyclicGraph::getNode(size_t index) const
 {
-    return DAG[i];
+    return dag[index];
 }
 
 const Node& DirectedAcyclicGraph::getRoot() const
 {
-    return DirectedAcyclicGraph::getNode(0);
+    return getNode(0);
 }
 
 void DirectedAcyclicGraph::addNode(Node& node)
 {
-    DAG.push_back(node);
+    dag.push_back(node);
 }

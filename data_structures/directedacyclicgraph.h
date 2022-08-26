@@ -8,13 +8,13 @@ class DirectedAcyclicGraph
 public:
     DirectedAcyclicGraph();
 
-    const Node& getNode(uint i) const;
+    const Node& getNode(size_t index) const;
     const Node& getRoot() const;
     void addNode(Node& node);
 
 
 private:
-    std::vector<Node> DAG;
+    std::vector<Node> dag;
 };
 
 #endif // DIRECTEDACYCLICGRAPH_H

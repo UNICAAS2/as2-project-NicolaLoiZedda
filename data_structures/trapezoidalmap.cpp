@@ -6,46 +6,47 @@ TrapezoidalMap::TrapezoidalMap()
     trapezoids.push_back(trapezoid);
 }
 
-void TrapezoidalMap::addTrapezoid(Trapezoid& trapezoid)
+const cg3::Point2d& TrapezoidalMap::getEndpointAtIndex(const size_t index) const
+{
+    return endpoints[index];
+}
+
+const cg3::Segment2d& TrapezoidalMap::getSegmentAtIndex(const size_t index) const
+{
+    return segments[index];
+}
+
+const Trapezoid& TrapezoidalMap::getTrapezoidAtIndex(const size_t index) const
+{
+    return trapezoids[index];
+}
+
+void TrapezoidalMap::addEndpoint(const cg3::Point2d& endpoint)
+{
+    endpoints.push_back(endpoint);
+}
+
+void TrapezoidalMap::addEndpointAtIndex(const cg3::Point2d& endpoint, const size_t index)
+{
+    endpoints[index] = endpoint;
+}
+
+void TrapezoidalMap::addSegment(const cg3::Segment2d& segment)
+{
+    segments.push_back(segment);
+}
+
+void TrapezoidalMap::addSegmentAtIndex(const cg3::Segment2d& segment, const size_t index)
+{
+    segments[index] = segment;
+}
+
+void TrapezoidalMap::addTrapezoid(const Trapezoid& trapezoid)
 {
     trapezoids.push_back(trapezoid);
 }
 
-void TrapezoidalMap::addTrapezoidAtIndex(Trapezoid& trapezoid, const uint index)
+void TrapezoidalMap::addTrapezoidAtIndex(const Trapezoid& trapezoid, const size_t index)
 {
     trapezoids[index] = trapezoid;
-}
-
-void TrapezoidalMap::splitInFour(Trapezoid& trapezoid, const cg3::Segment2d &segment)
-{
-    Trapezoid topTrapezoid = Trapezoid();
-    Trapezoid bottomTrapezoid = Trapezoid();
-    Trapezoid leftTrapezoid = Trapezoid();
-    Trapezoid rightTrapezoid = Trapezoid();
-
-    topTrapezoid.setTop(trapezoid.getTop());
-    topTrapezoid.setBottom(segment);
-    topTrapezoid.setLeftPoint(segment.p1());
-    topTrapezoid.setRightPoint(segment.p2());
-
-    bottomTrapezoid.setTop(segment);
-    bottomTrapezoid.setBottom(trapezoid.getBottom());
-    bottomTrapezoid.setLeftPoint(trapezoid.getLeftPoint());
-    bottomTrapezoid.setRightPoint(trapezoid.getRightPoint());
-
-    leftTrapezoid.setTop(trapezoid.getTop());
-    leftTrapezoid.setBottom(trapezoid.getBottom());
-    leftTrapezoid.setLeftPoint(trapezoid.getLeftPoint());
-    leftTrapezoid.setRightPoint(segment.p1());
-
-    rightTrapezoid.setTop(trapezoid.getTop());
-    rightTrapezoid.setBottom(trapezoid.getBottom());
-    rightTrapezoid.setLeftPoint(segment.p2());
-    rightTrapezoid.setRightPoint(trapezoid.getRightPoint());
-
-    //we should replace trapezoid!!!
-    addTrapezoid(topTrapezoid);
-    addTrapezoid(bottomTrapezoid);
-    addTrapezoid(leftTrapezoid);
-    addTrapezoid(rightTrapezoid);
 }
