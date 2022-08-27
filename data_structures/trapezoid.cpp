@@ -1,5 +1,10 @@
 #include "trapezoid.h"
 
+Trapezoid::Trapezoid()
+{
+
+}
+
 Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint)
 {
     Trapezoid::top = top;

@@ -6,9 +6,9 @@ TrapezoidalMap::TrapezoidalMap()
     trapezoids.push_back(trapezoid);
 }
 
-const cg3::Point2d& TrapezoidalMap::getEndpointAtIndex(const size_t index) const
+const cg3::Point2d& TrapezoidalMap::getPointAtIndex(const size_t index) const
 {
-    return endpoints[index];
+    return points[index];
 }
 
 const cg3::Segment2d& TrapezoidalMap::getSegmentAtIndex(const size_t index) const
@@ -21,14 +21,30 @@ const Trapezoid& TrapezoidalMap::getTrapezoidAtIndex(const size_t index) const
     return trapezoids[index];
 }
 
-void TrapezoidalMap::addEndpoint(const cg3::Point2d& endpoint)
+size_t TrapezoidalMap::numberOfPoints() const
 {
-    endpoints.push_back(endpoint);
+    return points.size();
 }
 
-void TrapezoidalMap::addEndpointAtIndex(const cg3::Point2d& endpoint, const size_t index)
+size_t TrapezoidalMap::numberOfSegments() const
 {
-    endpoints[index] = endpoint;
+    return segments.size();
+}
+
+size_t TrapezoidalMap::numberOfTrapezoids() const
+{
+    return trapezoids.size();
+}
+
+
+void TrapezoidalMap::addPoint(const cg3::Point2d& point)
+{
+    points.push_back(point);
+}
+
+void TrapezoidalMap::addPointAtIndex(const cg3::Point2d& point, const size_t index)
+{
+    points[index] = point;
 }
 
 void TrapezoidalMap::addSegment(const cg3::Segment2d& segment)

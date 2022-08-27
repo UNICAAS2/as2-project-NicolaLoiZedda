@@ -10,6 +10,7 @@ public:
 
     const Node& getNode(size_t index) const;
     const Node& getRoot() const;
+    size_t numberOfNodes() const;
     void addNode(Node& node);
 
 
