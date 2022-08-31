@@ -1,9 +1,15 @@
 #include "trapezoidalmap.h"
 
-TrapezoidalMap::TrapezoidalMap()
+TrapezoidalMap::TrapezoidalMap(const cg3::BoundingBox2 bbox) :
+    bbox(bbox)
 {
-    Trapezoid trapezoid = Trapezoid();
-    trapezoids.push_back(trapezoid);
+    Trapezoid bboxTrapezoid = Trapezoid(
+                cg3::Segment2d(cg3::Point2d(bbox.min().x(), bbox.max().y()), bbox.max()),       //top
+                cg3::Segment2d(bbox.min(), cg3::Point2d(bbox.max().x(), bbox.min().y())),       //bottom
+                bbox.min(),                                                                     //leftP
+                bbox.max());                                                                    //rightP
+
+    trapezoids.push_back(bboxTrapezoid);
 }
 
 const cg3::Point2d& TrapezoidalMap::getPointAtIndex(const size_t index) const
@@ -19,6 +25,26 @@ const cg3::Segment2d& TrapezoidalMap::getSegmentAtIndex(const size_t index) cons
 const Trapezoid& TrapezoidalMap::getTrapezoidAtIndex(const size_t index) const
 {
     return trapezoids[index];
+}
+
+const std::vector<cg3::Point2d>& TrapezoidalMap::getPoints() const
+{
+    return points;
+}
+
+const std::vector<cg3::Segment2d>& TrapezoidalMap::getSegments() const
+{
+    return segments;
+}
+
+const std::vector<Trapezoid>& TrapezoidalMap::getTrapezoids() const
+{
+    return trapezoids;
+}
+
+const cg3::BoundingBox2& TrapezoidalMap::getBBox() const
+{
+    return bbox;
 }
 
 size_t TrapezoidalMap::numberOfPoints() const

@@ -2,18 +2,20 @@
 
 #include <data_structures/trapezoid.h>
 
-Node::Node(nodeType type, const size_t index)
+Node::Node(nodeType type, const size_t index) :
+    type(type),
+    index(index)
 {
-    this->type = type;
-    this->index = index;
+
 }
 
-Node::Node(nodeType type, const size_t index, const size_t leftChild, const size_t rightChild)
+Node::Node(nodeType type, const size_t index, const size_t leftChild, const size_t rightChild) :
+    type(type),
+    index(index),
+    leftChild(leftChild),
+    rightChild(rightChild)
 {
-    this->type = type;
-    this->index = index;
-    this->leftChild = leftChild;
-    this->rightChild = rightChild;
+
 }
 
 const Node::nodeType& Node::getType() const

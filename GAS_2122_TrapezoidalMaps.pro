@@ -40,6 +40,7 @@ DISTFILES += \
     LICENSE
 
 SOURCES +=  \
+    algorithms/geometryfunctions.cpp \
     algorithms/trapezoidalmapconstructionandquery.cpp \
     data_structures/directedacyclicgraph.cpp \
     data_structures/node.cpp \
@@ -57,6 +58,7 @@ FORMS += \
     managers/trapezoidalmapmanager.ui
 
 HEADERS += \
+    algorithms/geometryfunctions.h \
     algorithms/trapezoidalmapconstructionandquery.h \
     data_structures/directedacyclicgraph.h \
     data_structures/node.h \

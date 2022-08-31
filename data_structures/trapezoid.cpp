@@ -1,30 +1,33 @@
 #include "trapezoid.h"
 
+#include <algorithms/geometryfunctions.h>
+
 Trapezoid::Trapezoid()
 {
 
 }
 
-Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint)
+Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint) :
+    top(top),
+    bottom(bottom),
+    leftPoint(leftPoint),
+    rightPoint(rightPoint)
 {
-    Trapezoid::top = top;
-    Trapezoid::bottom = bottom;
-    Trapezoid::leftPoint = leftPoint;
-    Trapezoid::rightPoint = rightPoint;
+
 }
 
 Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint,
-          size_t upperLeftNeighbor, size_t upperRightNeighbor, size_t lowerLeftNeighbor, size_t lowerRightNeighbor)
+          size_t upperLeftNeighbor, size_t upperRightNeighbor, size_t lowerLeftNeighbor, size_t lowerRightNeighbor) :
+    top(top),
+    bottom(bottom),
+    leftPoint(leftPoint),
+    rightPoint(rightPoint),
+    upperLeftNeighbor(upperLeftNeighbor),
+    upperRightNeighbor(upperRightNeighbor),
+    lowerLeftNeighbor(lowerLeftNeighbor),
+    lowerRightNeighbor(lowerRightNeighbor)
 {
-    Trapezoid::top = top;
-    Trapezoid::bottom = bottom;
-    Trapezoid::leftPoint = leftPoint;
-    Trapezoid::rightPoint = rightPoint;
 
-    Trapezoid::upperLeftNeighbor = upperLeftNeighbor;
-    Trapezoid::upperRightNeighbor = upperRightNeighbor;
-    Trapezoid::lowerLeftNeighbor = lowerLeftNeighbor;
-    Trapezoid::lowerRightNeighbor = lowerRightNeighbor;
 }
 
 const cg3::Segment2d& Trapezoid::getTop() const
@@ -65,6 +68,18 @@ size_t Trapezoid::getLowerLeftNeighbor() const
 size_t Trapezoid::getLowerRightNeighbor() const
 {
     return lowerRightNeighbor;
+}
+
+const std::array<cg3::Point2d, Trapezoid::NUM_OF_VERTICES> Trapezoid::getVertices() const
+{
+    std::array<cg3::Point2d, Trapezoid::NUM_OF_VERTICES> vertices;
+
+    vertices[0] = cg3::Point2d(leftPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(leftPoint.x(), top));     // top left
+    vertices[1] = cg3::Point2d(rightPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(rightPoint.x(), top));                // top right
+    vertices[2] = cg3::Point2d(rightPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(rightPoint.x(), bottom));             // bottom right
+    vertices[3] = cg3::Point2d(leftPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(leftPoint.x(), bottom));               // bottom left
+
+    return vertices;
 }
 
 void Trapezoid::setTop(const cg3::Segment2d& top)

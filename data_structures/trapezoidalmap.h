@@ -3,16 +3,24 @@
 
 #include <cg3/geometry/point2.h>
 #include <cg3/geometry/segment2.h>
+#include <cg3/geometry/bounding_box2.h>
 #include <data_structures/trapezoid.h>
 
 class TrapezoidalMap
 {
 public:
-    TrapezoidalMap();
+    TrapezoidalMap(const cg3::BoundingBox2 bbox);
 
     const cg3::Point2d& getPointAtIndex(const size_t index) const;
     const cg3::Segment2d& getSegmentAtIndex(const size_t index) const;
     const Trapezoid& getTrapezoidAtIndex(const size_t index) const;
+
+    const std::vector<cg3::Point2d>& getPoints() const;
+    const std::vector<cg3::Segment2d>& getSegments() const;
+    const std::vector<Trapezoid>& getTrapezoids() const;
+
+    const cg3::BoundingBox2& getBBox() const;
+
     size_t numberOfPoints() const;
     size_t numberOfSegments() const;
     size_t numberOfTrapezoids() const;
@@ -23,6 +31,8 @@ public:
     void addSegmentAtIndex(const cg3::Segment2d& segment, const size_t index);
     void addTrapezoid(const Trapezoid& trapezoid);
     void addTrapezoidAtIndex(const Trapezoid& trapezoid, const size_t index);
+
+    cg3::BoundingBox2 bbox;
 
 private:
     std::vector<cg3::Point2d> points;

@@ -11,6 +11,8 @@
 #include <cg3/geometry/segment2.h>
 
 #include "drawables/drawable_trapezoidalmap_dataset.h"
+#include "drawables/drawable_trapezoidalmap.h"
+#include "data_structures/directedacyclicgraph.h"
 
 namespace Ui {
     class TrapezoidalMapManager;
@@ -57,7 +59,8 @@ private:
     //---------------------------------------------------------------------
     //Declare your attributes here
 
-
+    DrawableTrapezoidalMap drawableTrapezoidalMap;
+    DirectedAcyclicGraph dag;
 
 
     //#####################################################################

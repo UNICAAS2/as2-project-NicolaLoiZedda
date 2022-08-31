@@ -12,6 +12,7 @@ public:
     const Node& getRoot() const;
     size_t numberOfNodes() const;
     void addNode(Node& node);
+    void addNodeAtIndex(Node& node, size_t index);
 
 
 private:

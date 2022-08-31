@@ -11,6 +11,8 @@
 
 #include "utils/fileutils.h"
 
+#include <algorithms/trapezoidalmapconstructionandquery.h>
+
 //Limits for the bounding box
 //It defines where points can be added
 //Do not change the following line
@@ -36,7 +38,8 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
                 cg3::Point2d(BOUNDINGBOX, BOUNDINGBOX)),
     firstPointSelectedColor(220, 80, 80),
     firstPointSelectedSize(5),
-    isFirstPointSelected(false)
+    isFirstPointSelected(false),
+    drawableTrapezoidalMap(drawableBoundingBox)
 {
     //NOTE 1: you probably need to initialize some objects in the constructor. You
     //can see how to initialize an attribute in the lines above. This is C++ style
@@ -48,6 +51,7 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
     //be evaluated!). We remind C++ is not java, objects can be allocated in the
     //stack without dynamic allocation (new), so we suggest to study the slides
     //and see some examples. Avoid pointers, unless it is necessary!
+
 
     //UI setup
     ui->setupUi(this);
@@ -64,6 +68,7 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
     //The mainWindow will take care of rendering the bounding box and the selected point
     mainWindow.pushDrawableObject(&drawableBoundingBox, "Bounding box");
     mainWindow.pushDrawableObject(&drawableTrapezoidalMapDataset, "Segments");
+    mainWindow.pushDrawableObject(&drawableTrapezoidalMap, "Trapezoidal map");
 
 
 
@@ -105,6 +110,7 @@ TrapezoidalMapManager::~TrapezoidalMapManager()
     //Delete the drawable objects
     mainWindow.deleteDrawableObject(&drawableBoundingBox);
     mainWindow.deleteDrawableObject(&drawableTrapezoidalMapDataset);
+    mainWindow.deleteDrawableObject(&drawableTrapezoidalMap);
     if (isFirstPointSelected) {
         mainWindow.deleteDrawableObject(&firstPointSelected);
     }
@@ -161,49 +167,7 @@ TrapezoidalMapManager::~TrapezoidalMapManager()
  */
 void TrapezoidalMapManager::addSegmentToTrapezoidalMap(const cg3::Segment2d& segment)
 {
-
-
-    //---------------------------------------------------------------------
-    //Execute the incremental step to add a segment to your output TrapezoidalMap data
-    //structure.
-    //
-    //Obviously, you have to define your algorithms and data structures in separate files.
-    //Algorithms must be defined AS A FUNCTION (in a namespace, if you want to hierarchically
-    //organize your functions) and NOT IN CLASSES (it is not Java).
-    //Data structures have to be defined in classes. Try to define a class for each data
-    //structure: each one must implement the methods of their responsibilities.
-    //Separate data structures from algorithms!
-    //
-    //HINT: the trapezoidal map is not a DAG (it uses a DAG as an associated search data structure),
-    //the DAG is not a trapezoidal map (and does not contain a trapezoidal map). TrapezoidalMap
-    //and DAG are two separate data structures.
-    //As example, we show two valid modeling options:
-    //  1. TrapezoidalMap could handle the construction and query in its inner methods, so it would
-    //contain the DAG and use its methods to perform the operations. It is easy to implement, but a
-    //bit less modular and general purpose. However, it is fine: it is not an error to model the
-    //TrapezoidalMap to have these responsibilities.
-    //  2. You could see construction and query as algorithms working on a TrapezoidalMap (which just
-    // handles the geometry of trapezoids and its points/segments) and a DAG (that allows for searching
-    //in the structure). This is a bit more complicated, but a better structure, because, in this case
-    //TrapezoidalMap and DAG are two separate general purpose data structures that an algorithm uses.
-    //THINK ABOUT YOUR STRUCTURE BEFORE WRITING CODE!
-    //
-    //NOTE: in TrapezoidalMapDataset you can see how we guaranteed no duplicates points.
-    //Indeed we use a vector for indexing the points, and a map to check if the point is
-    //already in the structure. You could use the same approach for your trapezoidal map to make
-    //it more efficient in memory. However, depending on how you implement your algorithms and data 
-    //structures, you could save directly the point (Point2d) in each trapezoid (it is fine).
-
-
-
-
-    //#####################################################################
-
-
-
-    //You can delete this line after you implement the algorithm: it is
-    //just needed to suppress the unused-variable warning
-    CG3_SUPPRESS_WARNING(segment);
+    TrapezoidalMapConstructionAndQuery::incrementalStep(drawableTrapezoidalMap, dag, segment);
 }
 
 /**
