@@ -24,7 +24,7 @@ namespace TrapezoidalMapConstructionAndQuery
             {
                 cg3::Point2d point = tm.getPointAtIndex(node.getIndex());
 
-                if (point.x() < queryPoint.x())
+                if (point.x() > queryPoint.x())
                     node = dag.getNode(node.getLeftChild());
                 else
                     node = dag.getNode(node.getRightChild());
@@ -104,6 +104,18 @@ namespace TrapezoidalMapConstructionAndQuery
         rightTrapezoid.setBottom(trapezoid.getBottom());
         rightTrapezoid.setLeftPoint(segment.p2());
         rightTrapezoid.setRightPoint(trapezoid.getRightPoint());
+
+        topTrapezoid.setUpperLeftNeighbor(trapezoidIndex + 2);
+        topTrapezoid.setUpperRightNeighbor(trapezoidIndex + 3);
+
+        bottomTrapezoid.setLowerLeftNeighbor(trapezoidIndex + 2);
+        bottomTrapezoid.setLowerRightNeighbor(trapezoidIndex + 3);
+
+        leftTrapezoid.setUpperRightNeighbor(trapezoidIndex);
+        leftTrapezoid.setLowerRightNeighbor(trapezoidIndex + 1);
+
+        rightTrapezoid.setUpperLeftNeighbor(trapezoidIndex);
+        rightTrapezoid.setLowerLeftNeighbor(trapezoidIndex + 1);
 
         tm.addTrapezoidAtIndex(topTrapezoid, trapezoidIndex);
         tm.addTrapezoid(bottomTrapezoid);
