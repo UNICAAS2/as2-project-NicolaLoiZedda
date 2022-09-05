@@ -7,6 +7,7 @@
 class Node
 {
 public:
+
     enum nodeType {point_node, segment_node, trapezoid_node};
 
     Node(nodeType type, const size_t index);
@@ -25,6 +26,7 @@ public:
     void setRightChild(const size_t rightChild);
 
 private:
+
     nodeType type;
     size_t index;
     size_t leftChild;

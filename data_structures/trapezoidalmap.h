@@ -32,6 +32,8 @@ public:
     void addTrapezoid(const Trapezoid& trapezoid);
     void addTrapezoidAtIndex(const Trapezoid& trapezoid, const size_t index);
 
+    void clear();
+
     cg3::BoundingBox2 bbox;
 
 private:

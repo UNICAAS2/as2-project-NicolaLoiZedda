@@ -6,7 +6,7 @@
 namespace GeometryFunctions
 {
     double getVerticalLineAndSegmentIntersection(double verticalLineX, cg3::Segment2d segment);
-
+    const cg3::Segment2d getOrderedSegment(const cg3::Segment2d segment);
 }
 
 #endif // GEOMETRYFUNCTIONS_H

@@ -2,6 +2,8 @@
 
 #include "data_structures/trapezoidalmap_dataset.h"
 
+#include <algorithms/geometryfunctions.h>
+
 namespace TrapezoidalMapConstructionAndQuery
 {
     void initializeStructures(TrapezoidalMap& tm, DirectedAcyclicGraph& dag)
@@ -46,12 +48,12 @@ namespace TrapezoidalMapConstructionAndQuery
         std::vector<size_t> intersectedTrapezoids;
         cg3::Point2d p = segment.p1();
         cg3::Point2d q = segment.p2();
-        size_t i = 0;
 
         intersectedTrapezoids.push_back(getTrapezoidFromPoint(tm, dag, p));
         size_t index = intersectedTrapezoids[0];
         cg3::Point2d rightP = tm.getTrapezoidAtIndex(index).getRightPoint();
 
+        size_t i = 0;
         while (rightP.x() <= q.x())
         {
             if (cg3::isPointAtLeft(segment, rightP))
@@ -90,8 +92,8 @@ namespace TrapezoidalMapConstructionAndQuery
 
         bottomTrapezoid.setTop(segment);
         bottomTrapezoid.setBottom(trapezoid.getBottom());
-        bottomTrapezoid.setLeftPoint(trapezoid.getLeftPoint());
-        bottomTrapezoid.setRightPoint(trapezoid.getRightPoint());
+        bottomTrapezoid.setLeftPoint(segment.p1());
+        bottomTrapezoid.setRightPoint(segment.p2());
 
         leftTrapezoid.setTop(trapezoid.getTop());
         leftTrapezoid.setBottom(trapezoid.getBottom());
@@ -139,17 +141,23 @@ namespace TrapezoidalMapConstructionAndQuery
 
     void incrementalStep(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, const cg3::Segment2d& segment)
     {
-        std::vector<size_t> intersectedTrapezoidsIndexes = followSegment(tm, dag, segment);
+        const cg3::Segment2d orderedSegment = GeometryFunctions::getOrderedSegment(segment);
+
+        std::vector<size_t> intersectedTrapezoidsIndexes = followSegment(tm, dag, orderedSegment);
 
         if (intersectedTrapezoidsIndexes.size() == 1)
-            splitInFour(tm, dag, intersectedTrapezoidsIndexes[0], segment);
-        /*
+            splitInFour(tm, dag, intersectedTrapezoidsIndexes[0], orderedSegment);
         else
         {
-
+            std::cout << " split in case of " << intersectedTrapezoidsIndexes.size() << " not implemented" << std::endl;
         }
-*/
         // to be continued
 
+    }
+
+    void clearStructures(TrapezoidalMap& tm, DirectedAcyclicGraph& dag)
+    {
+        tm.clear();
+        dag.clear();
     }
 }

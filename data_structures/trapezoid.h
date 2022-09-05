@@ -38,6 +38,7 @@ public:
     void setLowerRightNeighbor(const size_t lowerRightNeighbor);
 
 private:
+
     cg3::Segment2d top;
     cg3::Segment2d bottom;
     cg3::Point2d leftPoint;

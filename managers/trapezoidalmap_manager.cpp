@@ -53,6 +53,9 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
     //and see some examples. Avoid pointers, unless it is necessary!
 
 
+    srand(time(NULL));
+
+
     //UI setup
     ui->setupUi(this);
 
@@ -235,6 +238,10 @@ void TrapezoidalMapManager::clearTrapezoidalMap()
     //---------------------------------------------------------------------
     //Clear here your trapezoidal map data structure.
 
+    TrapezoidalMapConstructionAndQuery::clearStructures(drawableTrapezoidalMap, dag);
+
+    drawableTrapezoidalMap = DrawableTrapezoidalMap(drawableBoundingBox);
+    dag = DirectedAcyclicGraph();
 
 
     //#####################################################################

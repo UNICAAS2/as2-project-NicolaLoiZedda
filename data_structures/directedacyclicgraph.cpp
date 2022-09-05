@@ -30,3 +30,8 @@ void DirectedAcyclicGraph::addNodeAtIndex(Node& node, size_t index)
 {
     dag[index] = node;
 }
+
+void DirectedAcyclicGraph::clear()
+{
+    dag.clear();
+}

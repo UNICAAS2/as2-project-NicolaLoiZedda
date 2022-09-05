@@ -84,40 +84,40 @@ const std::array<cg3::Point2d, Trapezoid::NUM_OF_VERTICES> Trapezoid::getVertice
 
 void Trapezoid::setTop(const cg3::Segment2d& top)
 {
-    Trapezoid::top = top;
+    this->top = top;
 }
 
 void Trapezoid::setBottom(const cg3::Segment2d& bottom)
 {
-    Trapezoid::bottom = bottom;
+    this->bottom = bottom;
 }
 
 void Trapezoid::setLeftPoint(const cg3::Point2d& leftPoint)
 {
-    Trapezoid::leftPoint = leftPoint;
+    this->leftPoint = leftPoint;
 }
 
 void Trapezoid::setRightPoint(const cg3::Point2d& rightPoint)
 {
-    Trapezoid::rightPoint = rightPoint;
+    this->rightPoint = rightPoint;
 }
 
 void Trapezoid::setUpperLeftNeighbor(const size_t upperLeftNeighbor)
 {
-    Trapezoid::upperLeftNeighbor = upperLeftNeighbor;
+    this->upperLeftNeighbor = upperLeftNeighbor;
 }
 
 void Trapezoid::setUpperRightNeighbor(size_t upperRightNeighbor)
 {
-    Trapezoid::upperRightNeighbor = upperRightNeighbor;
+    this->upperRightNeighbor = upperRightNeighbor;
 }
 
 void Trapezoid::setLowerLeftNeighbor(size_t lowerLeftNeighbor)
 {
-    Trapezoid::lowerLeftNeighbor = lowerLeftNeighbor;
+    this->lowerLeftNeighbor = lowerLeftNeighbor;
 }
 
 void Trapezoid::setLowerRightNeighbor(size_t lowerRightNeighbor)
 {
-    Trapezoid::lowerRightNeighbor = lowerRightNeighbor;
+    this->lowerRightNeighbor = lowerRightNeighbor;
 }

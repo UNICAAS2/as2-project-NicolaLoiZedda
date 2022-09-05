@@ -62,7 +62,6 @@ size_t TrapezoidalMap::numberOfTrapezoids() const
     return trapezoids.size();
 }
 
-
 void TrapezoidalMap::addPoint(const cg3::Point2d& point)
 {
     points.push_back(point);
@@ -91,4 +90,11 @@ void TrapezoidalMap::addTrapezoid(const Trapezoid& trapezoid)
 void TrapezoidalMap::addTrapezoidAtIndex(const Trapezoid& trapezoid, const size_t index)
 {
     trapezoids[index] = trapezoid;
+}
+
+void TrapezoidalMap::clear()
+{
+    points.clear();
+    segments.clear();
+    trapezoids.clear();
 }
