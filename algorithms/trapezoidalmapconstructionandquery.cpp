@@ -6,14 +6,6 @@
 
 namespace TrapezoidalMapConstructionAndQuery
 {
-    void initializeStructures(TrapezoidalMap& tm, DirectedAcyclicGraph& dag)
-    {
-        Trapezoid trapezoid = Trapezoid();
-        Node node = Node(Node::trapezoid_node, 0);
-        tm.addTrapezoid(trapezoid);
-        dag.addNode(node);
-    }
-
     size_t getTrapezoidFromPoint(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, cg3::Point2d& queryPoint)
     {
         Node node = dag.getRoot();
@@ -68,7 +60,7 @@ namespace TrapezoidalMapConstructionAndQuery
         return intersectedTrapezoids;
     }
 
-    void splitInFour(TrapezoidalMap &tm, DirectedAcyclicGraph &dag, const size_t trapezoidIndex, const cg3::Segment2d &segment)
+    void splitTrapezoid(TrapezoidalMap &tm, DirectedAcyclicGraph &dag, const size_t trapezoidIndex, const cg3::Segment2d &segment)
     {
         // trapezoidal map split
         size_t leftEndpointIndex = tm.numberOfPoints();
@@ -79,7 +71,15 @@ namespace TrapezoidalMapConstructionAndQuery
         size_t segmentIndex = tm.numberOfSegments();
         tm.addSegment(segment);
 
+        bool leftExists = false;
+        bool rightExists = false;
+
         Trapezoid trapezoid = tm.getTrapezoidAtIndex(trapezoidIndex);
+        if (segment.p1().x() > trapezoid.getLeftPoint().x())
+            leftExists = true;
+        if (segment.p2().x() < trapezoid.getRightPoint().x())
+            rightExists = true;
+
         Trapezoid topTrapezoid = Trapezoid();
         Trapezoid bottomTrapezoid = Trapezoid();
         Trapezoid leftTrapezoid = Trapezoid();
@@ -95,32 +95,40 @@ namespace TrapezoidalMapConstructionAndQuery
         bottomTrapezoid.setLeftPoint(segment.p1());
         bottomTrapezoid.setRightPoint(segment.p2());
 
-        leftTrapezoid.setTop(trapezoid.getTop());
-        leftTrapezoid.setBottom(trapezoid.getBottom());
-        leftTrapezoid.setLeftPoint(trapezoid.getLeftPoint());
-        leftTrapezoid.setRightPoint(segment.p1());
+        if (leftExists)
+        {
+            leftTrapezoid.setTop(trapezoid.getTop());
+            leftTrapezoid.setBottom(trapezoid.getBottom());
+            leftTrapezoid.setLeftPoint(trapezoid.getLeftPoint());
+            leftTrapezoid.setRightPoint(segment.p1());
 
-        rightTrapezoid.setTop(trapezoid.getTop());
-        rightTrapezoid.setBottom(trapezoid.getBottom());
-        rightTrapezoid.setLeftPoint(segment.p2());
-        rightTrapezoid.setRightPoint(trapezoid.getRightPoint());
+            leftTrapezoid.setUpperRightNeighbor(trapezoidIndex);
+            leftTrapezoid.setLowerRightNeighbor(trapezoidIndex + 1);
 
-        topTrapezoid.setUpperLeftNeighbor(trapezoidIndex + 2);
-        topTrapezoid.setUpperRightNeighbor(trapezoidIndex + 3);
+            topTrapezoid.setUpperLeftNeighbor(trapezoidIndex + 2);
+            bottomTrapezoid.setLowerLeftNeighbor(trapezoidIndex + 2);
+        }
 
-        bottomTrapezoid.setLowerLeftNeighbor(trapezoidIndex + 2);
-        bottomTrapezoid.setLowerRightNeighbor(trapezoidIndex + 3);
+        if (rightExists)
+        {
+            rightTrapezoid.setTop(trapezoid.getTop());
+            rightTrapezoid.setBottom(trapezoid.getBottom());
+            rightTrapezoid.setLeftPoint(segment.p2());
+            rightTrapezoid.setRightPoint(trapezoid.getRightPoint());
 
-        leftTrapezoid.setUpperRightNeighbor(trapezoidIndex);
-        leftTrapezoid.setLowerRightNeighbor(trapezoidIndex + 1);
+            rightTrapezoid.setUpperLeftNeighbor(trapezoidIndex);
+            rightTrapezoid.setLowerLeftNeighbor(trapezoidIndex + 1);
 
-        rightTrapezoid.setUpperLeftNeighbor(trapezoidIndex);
-        rightTrapezoid.setLowerLeftNeighbor(trapezoidIndex + 1);
+            topTrapezoid.setUpperRightNeighbor(trapezoidIndex + 3);
+            bottomTrapezoid.setLowerRightNeighbor(trapezoidIndex + 3);
+        }
 
         tm.addTrapezoidAtIndex(topTrapezoid, trapezoidIndex);
         tm.addTrapezoid(bottomTrapezoid);
-        tm.addTrapezoid(leftTrapezoid);
-        tm.addTrapezoid(rightTrapezoid);
+        if (leftExists)
+            tm.addTrapezoid(leftTrapezoid);
+        if (rightExists)
+            tm.addTrapezoid(rightTrapezoid);
 
         // dag split
         Node leftEndpointNode = Node(Node::point_node, leftEndpointIndex);
@@ -134,10 +142,12 @@ namespace TrapezoidalMapConstructionAndQuery
 
         size_t leftEndpointNodeIndex = dag.numberOfNodes() - 1;
 
-        leftEndpointNode.setLeftChild(leftEndpointNodeIndex + 5);
+        if (leftExists)
+            leftEndpointNode.setLeftChild(leftEndpointNodeIndex + 5);
         leftEndpointNode.setRightChild(leftEndpointNodeIndex + 1);
         rightEndpointNode.setLeftChild(leftEndpointNodeIndex + 2);
-        rightEndpointNode.setRightChild(leftEndpointNodeIndex + 6);
+        if (rightExists)
+            rightEndpointNode.setRightChild(leftEndpointNodeIndex + 6);
 
         segmentNode.setLeftChild(leftEndpointNodeIndex + 3);
         segmentNode.setRightChild(leftEndpointNodeIndex + 4);
@@ -147,8 +157,10 @@ namespace TrapezoidalMapConstructionAndQuery
         dag.addNode(segmentNode);
         dag.addNode(topTrapezoidNode);
         dag.addNode(bottomTrapezoidNode);
-        dag.addNode(leftTrapezoidNode);
-        dag.addNode(rightTrapezoidNode);
+        if (leftExists)
+            dag.addNode(leftTrapezoidNode);
+        if (rightExists)
+            dag.addNode(rightTrapezoidNode);
     }
 
     void incrementalStep(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, const cg3::Segment2d& segment)
@@ -158,7 +170,10 @@ namespace TrapezoidalMapConstructionAndQuery
         std::vector<size_t> intersectedTrapezoidsIndexes = followSegment(tm, dag, orderedSegment);
 
         if (intersectedTrapezoidsIndexes.size() == 1)
-            splitInFour(tm, dag, intersectedTrapezoidsIndexes[0], orderedSegment);
+        {
+            std::cout << " segment completely inside one trapezoid " << std::endl;
+            splitTrapezoid(tm, dag, intersectedTrapezoidsIndexes[0], orderedSegment);
+        }
         else
         {
             std::cout << " split in case of " << intersectedTrapezoidsIndexes.size() << " not implemented" << std::endl;
