@@ -2,7 +2,12 @@
 
 #include <algorithms/geometryfunctions.h>
 
-Trapezoid::Trapezoid()
+Trapezoid::Trapezoid() :
+    upperLeftNeighbor(std::numeric_limits<size_t>::max()),
+    upperRightNeighbor(std::numeric_limits<size_t>::max()),
+    lowerLeftNeighbor(std::numeric_limits<size_t>::max()),
+    lowerRightNeighbor(std::numeric_limits<size_t>::max()),
+    nodeIndex(std::numeric_limits<size_t>::max())
 {
 
 }
@@ -11,13 +16,32 @@ Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, co
     top(top),
     bottom(bottom),
     leftPoint(leftPoint),
-    rightPoint(rightPoint)
+    rightPoint(rightPoint),
+    upperLeftNeighbor(std::numeric_limits<size_t>::max()),
+    upperRightNeighbor(std::numeric_limits<size_t>::max()),
+    lowerLeftNeighbor(std::numeric_limits<size_t>::max()),
+    lowerRightNeighbor(std::numeric_limits<size_t>::max()),
+    nodeIndex(std::numeric_limits<size_t>::max())
+{
+
+}
+
+Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint, const size_t nodeIndex) :
+    top(top),
+    bottom(bottom),
+    leftPoint(leftPoint),
+    rightPoint(rightPoint),
+    upperLeftNeighbor(std::numeric_limits<size_t>::max()),
+    upperRightNeighbor(std::numeric_limits<size_t>::max()),
+    lowerLeftNeighbor(std::numeric_limits<size_t>::max()),
+    lowerRightNeighbor(std::numeric_limits<size_t>::max()),
+    nodeIndex(nodeIndex)
 {
 
 }
 
 Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint,
-          size_t upperLeftNeighbor, size_t upperRightNeighbor, size_t lowerLeftNeighbor, size_t lowerRightNeighbor) :
+          const size_t upperLeftNeighbor, const size_t upperRightNeighbor, const size_t lowerLeftNeighbor, const size_t lowerRightNeighbor, const size_t nodeIndex) :
     top(top),
     bottom(bottom),
     leftPoint(leftPoint),
@@ -25,7 +49,8 @@ Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, co
     upperLeftNeighbor(upperLeftNeighbor),
     upperRightNeighbor(upperRightNeighbor),
     lowerLeftNeighbor(lowerLeftNeighbor),
-    lowerRightNeighbor(lowerRightNeighbor)
+    lowerRightNeighbor(lowerRightNeighbor),
+    nodeIndex(nodeIndex)
 {
 
 }
@@ -70,6 +95,23 @@ size_t Trapezoid::getLowerRightNeighbor() const
     return lowerRightNeighbor;
 }
 
+size_t Trapezoid::getNodeIndex() const
+{
+    return nodeIndex;
+}
+
+const std::array<size_t, Trapezoid::NUM_OF_NEIGHBORS> Trapezoid::getNeighbors() const
+{
+    std::array<size_t, Trapezoid::NUM_OF_NEIGHBORS> neighbors;
+
+    neighbors[0] = this->getUpperLeftNeighbor();
+    neighbors[1] = this->getLowerLeftNeighbor();
+    neighbors[2] = this->getUpperRightNeighbor();
+    neighbors[3] = this->getLowerRightNeighbor();
+
+    return neighbors;
+}
+
 const std::array<cg3::Point2d, Trapezoid::NUM_OF_VERTICES> Trapezoid::getVertices() const
 {
     std::array<cg3::Point2d, Trapezoid::NUM_OF_VERTICES> vertices;
@@ -107,17 +149,22 @@ void Trapezoid::setUpperLeftNeighbor(const size_t upperLeftNeighbor)
     this->upperLeftNeighbor = upperLeftNeighbor;
 }
 
-void Trapezoid::setUpperRightNeighbor(size_t upperRightNeighbor)
+void Trapezoid::setUpperRightNeighbor(const size_t upperRightNeighbor)
 {
     this->upperRightNeighbor = upperRightNeighbor;
 }
 
-void Trapezoid::setLowerLeftNeighbor(size_t lowerLeftNeighbor)
+void Trapezoid::setLowerLeftNeighbor(const size_t lowerLeftNeighbor)
 {
     this->lowerLeftNeighbor = lowerLeftNeighbor;
 }
 
-void Trapezoid::setLowerRightNeighbor(size_t lowerRightNeighbor)
+void Trapezoid::setLowerRightNeighbor(const size_t lowerRightNeighbor)
 {
     this->lowerRightNeighbor = lowerRightNeighbor;
+}
+
+void Trapezoid::setNodeIndex(const size_t nodeIndex)
+{
+    this->nodeIndex = nodeIndex;
 }

@@ -4,7 +4,9 @@
 
 Node::Node(nodeType type, const size_t index) :
     type(type),
-    index(index)
+    index(index),
+    leftChild(std::numeric_limits<size_t>::max()),
+    rightChild(std::numeric_limits<size_t>::max())
 {
 
 }

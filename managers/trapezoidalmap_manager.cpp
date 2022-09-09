@@ -179,55 +179,7 @@ void TrapezoidalMapManager::addSegmentToTrapezoidalMap(const cg3::Segment2d& seg
  */
 void TrapezoidalMapManager::queryTrapezoidalMap(const cg3::Point2d& queryPoint)
 {
-
-
-    //---------------------------------------------------------------------
-    //Execute the point location algorithm of your TrapezoidalMap to locate in which trapezoid
-    //the point is contained.
-    //
-    //Obviously, you have to define your algorithms and data structures in separate files.
-    //Algorithms must be defined AS A FUNCTION (in a namespace, if you want to hierarchically
-    //organize your functions) and NOT IN CLASSES (it is not Java).
-    //Data structures have to be defined in classes. Try to define a class for each data
-    //structure: each one must implement the methods of their responsibilities.
-    //Separate data structures from algorithms!
-    //
-    //HINT: the trapezoidal map is not a DAG (it uses a DAG as an associated search data structure),
-    //the DAG is not a trapezoidal map (and does not contain a trapezoidal map). TrapezoidalMap
-    //and DAG are two separate data structures.
-    //You have two options:
-    //1) TrapezoidalMap could handle the construction and query in its inner methods, so it would
-    //contain the DAG and use its methods to perform the operations. It is easy to implement, but
-    //a bit less modular. It is fine anyways, since TrapezoidalMap can have those responsibilities.
-    //2) You could see construction and query as algorithms working on a TrapezoidalMap (which just
-    //handles the geometry of trapezoids and its points/segments) and a DAG (that allows for searching
-    //in the structure). This is a bit more complicated, but a better structure, because, in this case
-    //TrapezoidalMap and DAG are two separate general purpose data structures that an algorithm uses.
-    //THINK ABOUT YOUR STRUCTURE BEFORE WRITING CODE!
-
-
-
-
-    //#####################################################################
-
-
-
-    //---------------------------------------------------------------------
-    //When you find the trapezoid in which the point is contained, you should highlight
-    //the output trapezoid in the canvas (DrawableTrapezoidMap should implement the method
-    //to do that).
-
-
-
-
-
-    //#####################################################################
-
-
-
-    //You can delete this line after you implement the algorithm: it is
-    //just needed to suppress the unused-variable warning
-    CG3_SUPPRESS_WARNING(queryPoint);
+    drawableTrapezoidalMap.setSelectedTrapezoid(TrapezoidalMapConstructionAndQuery::getTrapezoidFromPoint(drawableTrapezoidalMap, dag, queryPoint));
 }
 
 /**
@@ -235,16 +187,10 @@ void TrapezoidalMapManager::queryTrapezoidalMap(const cg3::Point2d& queryPoint)
  */
 void TrapezoidalMapManager::clearTrapezoidalMap()
 {
-    //---------------------------------------------------------------------
-    //Clear here your trapezoidal map data structure.
-
     TrapezoidalMapConstructionAndQuery::clearStructures(drawableTrapezoidalMap, dag);
 
     drawableTrapezoidalMap = DrawableTrapezoidalMap(drawableBoundingBox);
     dag = DirectedAcyclicGraph();
-
-
-    //#####################################################################
 }
 
 

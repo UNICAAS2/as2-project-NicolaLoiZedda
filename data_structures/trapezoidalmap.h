@@ -14,6 +14,7 @@ public:
     const cg3::Point2d& getPointAtIndex(const size_t index) const;
     const cg3::Segment2d& getSegmentAtIndex(const size_t index) const;
     const Trapezoid& getTrapezoidAtIndex(const size_t index) const;
+    Trapezoid& getTrapezoidRefAtIndex(const size_t index);
 
     const std::vector<cg3::Point2d>& getPoints() const;
     const std::vector<cg3::Segment2d>& getSegments() const;

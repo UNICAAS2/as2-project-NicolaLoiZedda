@@ -11,6 +11,11 @@ const Node& DirectedAcyclicGraph::getNode(size_t index) const
     return dag[index];
 }
 
+Node& DirectedAcyclicGraph::getNodeRef(size_t index)
+{
+    return dag[index];
+}
+
 const Node& DirectedAcyclicGraph::getRoot() const
 {
     return getNode(0);

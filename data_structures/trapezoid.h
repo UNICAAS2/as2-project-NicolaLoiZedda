@@ -10,10 +10,13 @@ public:
     // constructors
     Trapezoid();
     Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint);
+    Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint, const size_t nodeIndex);
     Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint,
-              const size_t upperLeftNeighbor, const size_t upperRightNeighbor, const size_t lowerLeftNeighbor, const size_t lowerRightNeighbor);
+              const size_t upperLeftNeighbor, const size_t upperRightNeighbor, const size_t lowerLeftNeighbor, const size_t lowerRightNeighbor,
+              const size_t nodeIndex);
 
     static const size_t NUM_OF_VERTICES = 4;
+    static const size_t NUM_OF_NEIGHBORS = 4;
 
     // getters
     const cg3::Segment2d& getTop() const;
@@ -24,7 +27,9 @@ public:
     size_t getUpperRightNeighbor() const;
     size_t getLowerLeftNeighbor() const;
     size_t getLowerRightNeighbor() const;
+    size_t getNodeIndex() const;
 
+    const std::array<size_t, NUM_OF_NEIGHBORS> getNeighbors() const;
     const std::array<cg3::Point2d, NUM_OF_VERTICES> getVertices() const;
 
     // setters
@@ -36,6 +41,7 @@ public:
     void setUpperRightNeighbor(const size_t upperRightNeighbor);
     void setLowerLeftNeighbor(const size_t lowerLeftNeighbor);
     void setLowerRightNeighbor(const size_t lowerRightNeighbor);
+    void setNodeIndex(const size_t nodeIndex);
 
 private:
 
@@ -48,6 +54,8 @@ private:
     size_t upperRightNeighbor;
     size_t lowerLeftNeighbor;
     size_t lowerRightNeighbor;
+
+    size_t nodeIndex;
 };
 
 #endif // TRAPEZOID_H

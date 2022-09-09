@@ -18,10 +18,10 @@ public:
     double sceneRadius() const;
 
     bool isColored(const size_t index) const;
-    bool isSelected(const size_t index) const;
+    size_t getSelectedTrapezoid() const;
 
     void setColored(const bool colored, const size_t index);
-    void setSelected(const bool selected, const size_t index);
+    void setSelectedTrapezoid(const size_t index);
 
     cg3::Color randomColor() const;
     void colorTrapezoids();
@@ -33,7 +33,7 @@ private:
     cg3::Color segmentColor;
     std::vector<cg3::Color> trapezoidColor;
     std::vector<bool> coloredVector;
-    std::vector<bool> selectedVector;
+    size_t selectedTrapezoid;
 
     unsigned int pointSize;
     unsigned int segmentSize;
