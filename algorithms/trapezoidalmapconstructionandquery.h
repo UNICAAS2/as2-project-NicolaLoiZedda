@@ -12,7 +12,7 @@ namespace TrapezoidalMapConstructionAndQuery
     size_t trapezoidIndexToNodeIndex(const TrapezoidalMap& tm, const size_t index);
     size_t nodeIndexToTrapezoidIndex(const DirectedAcyclicGraph& dag, const size_t index);
     const std::vector<size_t> followSegment(const TrapezoidalMap& tm, const DirectedAcyclicGraph& dag, const cg3::Segment2d& segment);
-    void splitTrapezoid(TrapezoidalMap &tm, DirectedAcyclicGraph& dag, const size_t trapezoidIndex, const cg3::Segment2d &segment);
+    void splitTrapezoids(TrapezoidalMap &tm, DirectedAcyclicGraph &dag, std::vector<size_t> trapezoidIndexes, const cg3::Segment2d &segment);
     void incrementalStep(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, const cg3::Segment2d& segment);
     void clearStructures(TrapezoidalMap& tm, DirectedAcyclicGraph& dag);
 }

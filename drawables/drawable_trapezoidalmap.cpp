@@ -3,13 +3,13 @@
 #include <cg3/viewer/opengl_objects/opengl_objects2.h>
 
 DrawableTrapezoidalMap::DrawableTrapezoidalMap(const cg3::BoundingBox2 bbox) :
+    TrapezoidalMap(bbox),
     pointColor(80, 180, 80),
     segmentColor(200, 5, 5),
     selectedTrapezoid(std::numeric_limits<size_t>::max()),
     pointSize(5),
     segmentSize(3),
-    trapezoidSize(1),
-    TrapezoidalMap(bbox)
+    trapezoidSize(1)
 {
     colorTrapezoids();
 }
