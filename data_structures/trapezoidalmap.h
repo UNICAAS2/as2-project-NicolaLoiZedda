@@ -21,6 +21,7 @@ public:
     const std::vector<Trapezoid>& getTrapezoids() const;
 
     const cg3::BoundingBox2& getBBox() const;
+    size_t getMergedTrapezoid() const;
 
     size_t numberOfPoints() const;
     size_t numberOfSegments() const;
@@ -33,14 +34,18 @@ public:
     void addTrapezoid(const Trapezoid& trapezoid);
     void addTrapezoidAtIndex(const Trapezoid& trapezoid, const size_t index);
 
+    void setMergedTrapezoid(const size_t index);
+
     void clear();
 
-    cg3::BoundingBox2 bbox;
 
 private:
     std::vector<cg3::Point2d> points;
     std::vector<cg3::Segment2d> segments;
     std::vector<Trapezoid> trapezoids;
+
+    cg3::BoundingBox2 bbox;
+    size_t mergedTrapezoid;
 };
 
 #endif // TRAPEZOIDALMAP_H

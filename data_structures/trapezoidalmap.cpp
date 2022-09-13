@@ -1,7 +1,8 @@
 #include "trapezoidalmap.h"
 
 TrapezoidalMap::TrapezoidalMap(const cg3::BoundingBox2 bbox) :
-    bbox(bbox)
+    bbox(bbox),
+    mergedTrapezoid(std::numeric_limits<size_t>::max())
 {
     Trapezoid bboxTrapezoid = Trapezoid(
                 cg3::Segment2d(cg3::Point2d(bbox.min().x(), bbox.max().y()), bbox.max()),       //top
@@ -46,6 +47,11 @@ const std::vector<cg3::Segment2d>& TrapezoidalMap::getSegments() const
 const std::vector<Trapezoid>& TrapezoidalMap::getTrapezoids() const
 {
     return trapezoids;
+}
+
+size_t TrapezoidalMap::getMergedTrapezoid() const
+{
+    return mergedTrapezoid;
 }
 
 const cg3::BoundingBox2& TrapezoidalMap::getBBox() const
@@ -97,26 +103,12 @@ void TrapezoidalMap::addTrapezoidAtIndex(const Trapezoid& trapezoid, const size_
 {
     trapezoids[index] = trapezoid;
 }
-/*
-void TrapezoidalMap::updateOldNeighbors(std::array<size_t, Trapezoid::NUM_OF_NEIGHBORS> oldNeighbors)
+
+void TrapezoidalMap::setMergedTrapezoid(const size_t index)
 {
-    size_t index = oldNeighbors[0];
-    for (size_t i = 0; i < oldNeighbors.size(); i++)
-    {
-        if (oldNeighbors[i] != std::numeric_limits<size_t>::max())
-        {
-            if (i == 0)
-                trapezoid[i].setUpperRightNeighbor();
-            else if (i == 1)
-                    trapezoid[i].setLowerRightNeighbor();
-            else if (i == 2)
-                    trapezoid[i].setUpperLeftNeighbor();
-            else if (i == 3)
-                    trapezoid[i].setLowerLeftNeighbor();
-        }
-    }
+    mergedTrapezoid = index;
 }
-*/
+
 void TrapezoidalMap::clear()
 {
     points.clear();

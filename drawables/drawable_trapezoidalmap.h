@@ -26,7 +26,6 @@ public:
     cg3::Color randomColor() const;
     void colorTrapezoids();
 
-
 private:
 
     cg3::Color pointColor;
