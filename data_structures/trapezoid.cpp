@@ -41,6 +41,21 @@ Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, co
 }
 
 Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint,
+          const size_t upperLeftNeighbor, const size_t upperRightNeighbor, const size_t lowerLeftNeighbor, const size_t lowerRightNeighbor) :
+    top(top),
+    bottom(bottom),
+    leftPoint(leftPoint),
+    rightPoint(rightPoint),
+    upperLeftNeighbor(upperLeftNeighbor),
+    upperRightNeighbor(upperRightNeighbor),
+    lowerLeftNeighbor(lowerLeftNeighbor),
+    lowerRightNeighbor(lowerRightNeighbor),
+    nodeIndex(std::numeric_limits<size_t>::max())
+{
+
+}
+
+Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint,
           const size_t upperLeftNeighbor, const size_t upperRightNeighbor, const size_t lowerLeftNeighbor, const size_t lowerRightNeighbor, const size_t nodeIndex) :
     top(top),
     bottom(bottom),

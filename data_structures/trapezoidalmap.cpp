@@ -101,7 +101,10 @@ void TrapezoidalMap::addTrapezoid(const Trapezoid& trapezoid)
 
 void TrapezoidalMap::addTrapezoidAtIndex(const Trapezoid& trapezoid, const size_t index)
 {
-    trapezoids[index] = trapezoid;
+    if (index == trapezoids.size())
+        trapezoids.push_back(trapezoid);
+    else
+        trapezoids[index] = trapezoid;
 }
 
 void TrapezoidalMap::setMergedTrapezoid(const size_t index)
@@ -114,4 +117,5 @@ void TrapezoidalMap::clear()
     points.clear();
     segments.clear();
     trapezoids.clear();
+    mergedTrapezoid = std::numeric_limits<size_t>::max();
 }

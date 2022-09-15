@@ -38,7 +38,6 @@ public:
 
     void clear();
 
-
 private:
     std::vector<cg3::Point2d> points;
     std::vector<cg3::Segment2d> segments;
