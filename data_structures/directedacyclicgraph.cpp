@@ -33,7 +33,10 @@ void DirectedAcyclicGraph::addNode(Node& node)
 
 void DirectedAcyclicGraph::addNodeAtIndex(Node& node, size_t index)
 {
-    dag[index] = node;
+    if (index == dag.size())
+        dag.push_back(node);
+    else
+        dag[index] = node;
 }
 
 void DirectedAcyclicGraph::clear()
