@@ -9,6 +9,7 @@
 namespace TrapezoidalMapConstructionAndQuery
 {
     size_t getTrapezoidFromPoint(const TrapezoidalMap& tm, const DirectedAcyclicGraph& dag, const cg3::Point2d& queryPoint);
+    size_t getFirstTrapezoidIntersectedBySegment(const TrapezoidalMap& tm, const DirectedAcyclicGraph& dag, const cg3::Segment2d& newSegment);
     size_t trapezoidIndexToNodeIndex(const TrapezoidalMap& tm, const size_t index);
     size_t nodeIndexToTrapezoidIndex(const DirectedAcyclicGraph& dag, const size_t index);
     const std::vector<size_t> followSegment(const TrapezoidalMap& tm, const DirectedAcyclicGraph& dag, const cg3::Segment2d& segment);

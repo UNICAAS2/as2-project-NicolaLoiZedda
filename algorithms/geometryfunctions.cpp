@@ -2,10 +2,14 @@
 
 namespace GeometryFunctions
 {
+    double slope(const cg3::Segment2d segment)
+    {
+        return (segment.p2().y() - segment.p1().y()) / (segment.p2().x() - segment.p1().x());
+    }
+
     double getVerticalLineAndSegmentIntersection(double verticalLineX, cg3::Segment2d segment)
     {
-        return ((segment.p2().y() - segment.p1().y()) / (segment.p2().x() - segment.p1().x())) *
-                (verticalLineX - segment.p1().x()) + segment.p1().y();
+        return (slope(segment)) * (verticalLineX - segment.p1().x()) + segment.p1().y();
     }
 
     const cg3::Segment2d getOrderedSegment(const cg3::Segment2d segment)
@@ -15,4 +19,5 @@ namespace GeometryFunctions
         else
             return segment;
     }
+
 }

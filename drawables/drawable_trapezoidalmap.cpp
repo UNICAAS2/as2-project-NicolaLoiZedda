@@ -32,7 +32,8 @@ void DrawableTrapezoidalMap::draw() const
             if (i == selectedTrapezoid)
                 color = cg3::Color(200, 200, 200, 255);
             else
-                color = trapezoidColor[i];
+                color = cg3::Color(30, 20, 30, 255);
+                //color = trapezoidColor[i];
             cg3::opengl::drawQuad2(vertices, color, static_cast<int>(trapezoidSize), true);
         }
 
