@@ -8,8 +8,10 @@ class Node
 {
 public:
 
+    // enum used for the node type
     enum nodeType {point_node, segment_node, trapezoid_node};
 
+    // constructors
     Node(nodeType type, const size_t index);
     Node(nodeType type, const size_t index, const size_t leftChild, const size_t rightChild);
 

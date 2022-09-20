@@ -2,6 +2,10 @@
 
 #include <cg3/viewer/opengl_objects/opengl_objects2.h>
 
+/**
+ * @brief DrawableTrapezoidalMap::DrawableTrapezoidalMap drawable trapezoidal map constructor
+ * @param bbox bounding box
+ */
 DrawableTrapezoidalMap::DrawableTrapezoidalMap(const cg3::BoundingBox2 bbox) :
     TrapezoidalMap(bbox),
     pointColor(80, 180, 80),
@@ -11,7 +15,7 @@ DrawableTrapezoidalMap::DrawableTrapezoidalMap(const cg3::BoundingBox2 bbox) :
     segmentSize(3),
     trapezoidSize(1)
 {
-    colorTrapezoids();
+
 }
 
 void DrawableTrapezoidalMap::draw() const
@@ -27,8 +31,6 @@ void DrawableTrapezoidalMap::draw() const
 
             cg3::opengl::drawLine2(vertices[0], vertices[3], segmentColor, static_cast<int>(segmentSize));
             cg3::opengl::drawLine2(vertices[1], vertices[2], segmentColor, static_cast<int>(segmentSize));
-            //cg3::opengl::drawLine2(vertices[0], vertices[1], segmentColor, static_cast<int>(segmentSize));
-            //cg3::opengl::drawLine2(vertices[3], vertices[2], segmentColor, static_cast<int>(segmentSize));
             if (i == selectedTrapezoid)
                 color = cg3::Color(200, 200, 200, 255);
             else
@@ -58,6 +60,10 @@ bool DrawableTrapezoidalMap::isColored(const size_t index) const
     return coloredVector[index];
 }
 
+/**
+ * @brief DrawableTrapezoidalMap::getSelectedTrapezoid gets trapezoid currently selected
+ * @return index in the map of the trapezoid currently selected
+ */
 size_t DrawableTrapezoidalMap::getSelectedTrapezoid() const
 {
     return selectedTrapezoid;
@@ -68,6 +74,10 @@ void DrawableTrapezoidalMap::setColored(const bool colored, const size_t index)
     coloredVector[index] = colored;
 }
 
+/**
+ * @brief DrawableTrapezoidalMap::setSelectedTrapezoid sets trapezoid currently selected
+ * @param index in the map of the trapezoid currently selected
+ */
 void DrawableTrapezoidalMap::setSelectedTrapezoid(const size_t index)
 {
     selectedTrapezoid = index;

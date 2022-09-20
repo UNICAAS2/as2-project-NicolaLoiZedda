@@ -9,12 +9,13 @@ public:
 
     DirectedAcyclicGraph();
 
-    const Node& getNode(size_t index) const;
-    Node& getNodeRef(size_t index);
+    const Node& getNode(const size_t index) const;
+    Node& getNodeRef(const size_t index);
     const Node& getRoot() const;
     size_t numberOfNodes() const;
-    void addNode(Node& node);
-    void addNodeAtIndex(Node& node, size_t index);
+
+    void addNode(const Node& node);
+    void addNodeAtIndex(const Node& node, const size_t index);
     void clear();
 
 

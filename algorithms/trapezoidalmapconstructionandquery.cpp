@@ -6,6 +6,13 @@
 
 namespace TrapezoidalMapConstructionAndQuery
 {
+    /**
+     * @brief getTrapezoidFromPoint gets the trapezoid on which a point lies
+     * @param tm the trapezoidal map
+     * @param dag the directed acyclic graph
+     * @param queryPoint the point
+     * @return the index in the map of the trapezoid on which the point lies
+     */
     size_t getTrapezoidFromPoint(const TrapezoidalMap& tm, const DirectedAcyclicGraph& dag, const cg3::Point2d& queryPoint)
     {
         Node node = dag.getRoot();
@@ -35,7 +42,14 @@ namespace TrapezoidalMapConstructionAndQuery
         return node.getIndex();
     }
 
-    size_t getFirstTrapezoidIntersectedBySegment(const TrapezoidalMap& tm, const DirectedAcyclicGraph& dag, const cg3::Segment2d& newSegment)
+    /**
+     * @brief getLeftmostTrapezoidIntersectedBySegment gets the leftmost trapezoid intersected by a segment
+     * @param tm the trapezoidal map
+     * @param dag the directed acyclic graph
+     * @param segment the segment
+     * @return the index in the map of the leftmost trapezoid intersected by the segment
+     */
+    size_t getLeftmostTrapezoidIntersectedBySegment(const TrapezoidalMap& tm, const DirectedAcyclicGraph& dag, const cg3::Segment2d& segment)
     {
         Node node = dag.getRoot();
 
@@ -45,20 +59,20 @@ namespace TrapezoidalMapConstructionAndQuery
             {
                 cg3::Point2d point = tm.getPointAtIndex(node.getIndex());
 
-                if (point.x() > newSegment.p1().x())
+                if (point.x() > segment.p1().x())
                     node = dag.getNode(node.getLeftChild());
                 else
                     node = dag.getNode(node.getRightChild());
             }
             else
             {
-                cg3::Segment2d segment = tm.getSegmentAtIndex(node.getIndex());
+                cg3::Segment2d nodeSegment = tm.getSegmentAtIndex(node.getIndex());
 
-                if (cg3::isPointAtLeft(segment, newSegment.p1()))
+                if (cg3::isPointAtLeft(nodeSegment, segment.p1()))
                     node = dag.getNode(node.getLeftChild());
-                else if (cg3::isPointAtRight(segment, newSegment.p1()))
+                else if (cg3::isPointAtRight(nodeSegment, segment.p1()))
                     node = dag.getNode(node.getRightChild());
-                else if (GeometryFunctions::slope(newSegment) > GeometryFunctions::slope(segment))
+                else if (GeometryFunctions::slope(segment) > GeometryFunctions::slope(nodeSegment))
                     node = dag.getNode(node.getLeftChild());
                 else
                     node = dag.getNode(node.getRightChild());
@@ -68,22 +82,18 @@ namespace TrapezoidalMapConstructionAndQuery
         return node.getIndex();
     }
 
-
-    size_t trapezoidIndexToNodeIndex(const TrapezoidalMap& tm, const size_t index)
-    {
-        return tm.getTrapezoidAtIndex(index).getNodeIndex();
-    }
-
-    size_t nodeIndexToTrapezoidIndex(const DirectedAcyclicGraph& dag, const size_t index)
-    {
-        return dag.getNode(index).getIndex();
-    }
-
+    /**
+     * @brief followSegment get all the trapezoids intersected by a segment
+     * @param tm the trapezoidal map
+     * @param dag the directed acyclic graph
+     * @param segment the segment
+     * @return a vector containing all the trapezoids intersected by the segment
+     */
     const std::vector<size_t> followSegment(const TrapezoidalMap& tm, const DirectedAcyclicGraph& dag, const cg3::Segment2d& segment)
     {
         std::vector<size_t> intersectedTrapezoids;
 
-        intersectedTrapezoids.push_back(getFirstTrapezoidIntersectedBySegment(tm, dag, segment));
+        intersectedTrapezoids.push_back(getLeftmostTrapezoidIntersectedBySegment(tm, dag, segment));
         cg3::Point2d rightP = tm.getTrapezoidAtIndex(intersectedTrapezoids[0]).getRightPoint();
 
         size_t i = 0;
@@ -101,6 +111,13 @@ namespace TrapezoidalMapConstructionAndQuery
         return intersectedTrapezoids;
     }
 
+    /**
+     * @brief merge performs the merge operation of two trapezoids
+     * @param tm the trapezoidal map
+     * @param leftTrapezoidIndex index in the map of the left trapezoid to merge
+     * @param rightTrapezoidIndex index in the map of the right trapezoid to merge
+     * @return the index of the merged trapezoid
+     */
     size_t merge(TrapezoidalMap &tm, const size_t leftTrapezoidIndex, const size_t rightTrapezoidIndex)
     {
         Trapezoid& leftTrapezoid = tm.getTrapezoidRefAtIndex(leftTrapezoidIndex);
@@ -124,6 +141,13 @@ namespace TrapezoidalMapConstructionAndQuery
         return std::numeric_limits<size_t>::max();
     }
 
+    /**
+     * @brief splitTrapezoids execututes all the split operations for each intersected trapezoid
+     * @param tm the trapezoidal map
+     * @param dag the directed acyclic graph
+     * @param trapezoidIndexes a vector containing the indexes in the map of the intersected trapezoids
+     * @param segment the segment being added to the map
+     */
     void splitTrapezoids(TrapezoidalMap &tm, DirectedAcyclicGraph &dag, std::vector<size_t> trapezoidIndexes, const cg3::Segment2d &segment)
     {
         // add segment and its endpoints to the map
@@ -391,7 +415,7 @@ namespace TrapezoidalMapConstructionAndQuery
                         else
                         {
                             topTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
-                            topTrapezoidNodeIndex = trapezoidIndexToNodeIndex(tm, topTrapezoidIndex);
+                            topTrapezoidNodeIndex = tm.getTrapezoidAtIndex(topTrapezoidIndex).getNodeIndex();
                             bottomTrapezoidNodeIndex = dag.numberOfNodes();
                         }
                     }
@@ -404,7 +428,7 @@ namespace TrapezoidalMapConstructionAndQuery
                         else
                         {
                             bottomTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
-                            bottomTrapezoidNodeIndex = trapezoidIndexToNodeIndex(tm, bottomTrapezoidIndex);
+                            bottomTrapezoidNodeIndex = tm.getTrapezoidAtIndex(bottomTrapezoidIndex).getNodeIndex();
                         }
                     }
                 }
@@ -440,7 +464,7 @@ namespace TrapezoidalMapConstructionAndQuery
                         else
                         {
                             topTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
-                            topTrapezoidNodeIndex = trapezoidIndexToNodeIndex(tm, topTrapezoidIndex);
+                            topTrapezoidNodeIndex = tm.getTrapezoidAtIndex(topTrapezoidIndex).getNodeIndex();
                             bottomTrapezoidNodeIndex = segmentNodeIndex + 1;
                         }
 
@@ -459,7 +483,7 @@ namespace TrapezoidalMapConstructionAndQuery
                         else
                         {
                             bottomTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
-                            bottomTrapezoidNodeIndex = trapezoidIndexToNodeIndex(tm, bottomTrapezoidIndex);
+                            bottomTrapezoidNodeIndex = tm.getTrapezoidAtIndex(bottomTrapezoidIndex).getNodeIndex();
 
                             if (rightTrapezoidExists)
                                 rightTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
@@ -509,6 +533,12 @@ namespace TrapezoidalMapConstructionAndQuery
         }
     }
 
+    /**
+     * @brief incrementalStep executes the incremental step of adding a segment to the map
+     * @param tm the trapezoidal map
+     * @param dag the directed acyclic graph
+     * @param segment the segment being added to the map
+     */
     void incrementalStep(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, const cg3::Segment2d& segment)
     {
         const cg3::Segment2d orderedSegment = GeometryFunctions::getOrderedSegment(segment);
@@ -518,6 +548,11 @@ namespace TrapezoidalMapConstructionAndQuery
         splitTrapezoids(tm, dag, intersectedTrapezoidsIndexes, orderedSegment);
     }
 
+    /**
+     * @brief clearStructures clears all map and dag data
+     * @param tm the trapezoidal map
+     * @param dag the directed acyclic graph
+     */
     void clearStructures(TrapezoidalMap& tm, DirectedAcyclicGraph& dag)
     {
         tm.clear();
