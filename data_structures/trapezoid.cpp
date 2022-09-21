@@ -201,13 +201,28 @@ const std::array<cg3::Point2d, Trapezoid::NUM_OF_VERTICES> Trapezoid::getVertice
     std::array<cg3::Point2d, Trapezoid::NUM_OF_VERTICES> vertices;
 
     // top left vertex
-    vertices[0] = cg3::Point2d(leftPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(leftPoint.x(), top));
+    if (getTop().p1() != getLeftPoint())
+        vertices[0] = cg3::Point2d(leftPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(leftPoint.x(), top));
+    else
+        vertices[0] = getLeftPoint();
+
     // top right vertex
-    vertices[1] = cg3::Point2d(rightPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(rightPoint.x(), top));
+    if (getTop().p2() != getRightPoint())
+        vertices[1] = cg3::Point2d(rightPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(rightPoint.x(), top));
+    else
+        vertices[1] = getRightPoint();
+
     // bottom right vertex
-    vertices[2] = cg3::Point2d(rightPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(rightPoint.x(), bottom));
+    if (getBottom().p2() != getRightPoint())
+        vertices[2] = cg3::Point2d(rightPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(rightPoint.x(), bottom));
+    else
+        vertices[2] = getRightPoint();
+
     // bottom left vertex
-    vertices[3] = cg3::Point2d(leftPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(leftPoint.x(), bottom));
+    if (getBottom().p1() != getLeftPoint())
+        vertices[3] = cg3::Point2d(leftPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(leftPoint.x(), bottom));
+    else
+        vertices[3] = getLeftPoint();
 
     return vertices;
 }

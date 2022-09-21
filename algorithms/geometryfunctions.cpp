@@ -20,7 +20,11 @@ namespace GeometryFunctions
      */
     double getVerticalLineAndSegmentIntersection(double verticalLineX, cg3::Segment2d segment)
     {
-        return (slope(segment)) * (verticalLineX - segment.p1().x()) + segment.p1().y();
+        /*
+         * 1e7 is the rounding number and it is necessary for the whole project to work correctly
+         * otherwise the drawquad function could have problems
+         */
+        return ((slope(segment) * (verticalLineX - segment.p1().x()) + segment.p1().y()) * 1e7) / 1e7;
     }
 
     /**

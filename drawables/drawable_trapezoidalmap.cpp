@@ -29,14 +29,28 @@ void DrawableTrapezoidalMap::draw() const
             std::array<cg3::Point2d, Trapezoid::NUM_OF_VERTICES> vertices = t.getVertices();
             cg3::Color color;
 
-            cg3::opengl::drawLine2(vertices[0], vertices[3], segmentColor, static_cast<int>(segmentSize));
-            cg3::opengl::drawLine2(vertices[1], vertices[2], segmentColor, static_cast<int>(segmentSize));
             if (i == selectedTrapezoid)
                 color = cg3::Color(200, 200, 200, 255);
             else
                 color = cg3::Color(30, 20, 30, 255);
                 //color = trapezoidColor[i];
-            cg3::opengl::drawQuad2(vertices, color, static_cast<int>(trapezoidSize), true);
+
+            if (vertices[0] == vertices[3])
+            {
+                cg3::opengl::drawLine2(vertices[1], vertices[2], segmentColor, static_cast<int>(segmentSize));
+                cg3::opengl::drawTriangle2(vertices[0], vertices[1], vertices[2], color, static_cast<int>(trapezoidSize), true);
+            }
+            else if (vertices[1] == vertices[2])
+            {
+                cg3::opengl::drawLine2(vertices[0], vertices[3], segmentColor, static_cast<int>(segmentSize));
+                cg3::opengl::drawTriangle2(vertices[0], vertices[1], vertices[3], color, static_cast<int>(trapezoidSize), true);
+            }
+            else
+            {
+                cg3::opengl::drawLine2(vertices[0], vertices[3], segmentColor, static_cast<int>(segmentSize));
+                cg3::opengl::drawLine2(vertices[1], vertices[2], segmentColor, static_cast<int>(segmentSize));
+                cg3::opengl::drawQuad2(vertices, color, static_cast<int>(trapezoidSize), true);
+            }
         }
 
         i++;
