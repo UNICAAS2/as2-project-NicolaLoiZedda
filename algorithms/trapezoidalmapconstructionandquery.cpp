@@ -123,8 +123,10 @@ namespace TrapezoidalMapConstructionAndQuery
         Trapezoid& leftTrapezoid = tm.getTrapezoidRefAtIndex(leftTrapezoidIndex);
         Trapezoid rightTrapezoid = tm.getTrapezoidAtIndex(rightTrapezoidIndex);
 
+        // if the two trapezoids have the properties to merge the merge is performed
         if (leftTrapezoid.getTop() == rightTrapezoid.getTop() && leftTrapezoid.getBottom() == rightTrapezoid.getBottom())
         {
+
             leftTrapezoid.setRightPoint(rightTrapezoid.getRightPoint());
             leftTrapezoid.setUpperRightNeighbor(rightTrapezoid.getUpperRightNeighbor());
             leftTrapezoid.setLowerRightNeighbor(rightTrapezoid.getLowerRightNeighbor());
@@ -135,6 +137,7 @@ namespace TrapezoidalMapConstructionAndQuery
             if (rightTrapezoid.getLowerRightNeighbor() != std::numeric_limits<size_t>::max())
                 tm.getTrapezoidRefAtIndex(rightTrapezoid.getLowerRightNeighbor()).setLowerLeftNeighbor(leftTrapezoidIndex);
 
+            // we return the index of the merged trapezoid
             return rightTrapezoidIndex;
         }
 
@@ -142,7 +145,7 @@ namespace TrapezoidalMapConstructionAndQuery
     }
 
     /**
-     * @brief splitTrapezoids execututes all the split operations for each intersected trapezoid
+     * @brief splitTrapezoids execututes all the split operations for each trapezoid intersected by a segment
      * @param tm the trapezoidal map
      * @param dag the directed acyclic graph
      * @param trapezoidIndexes a vector containing the indexes in the map of the intersected trapezoids
@@ -150,7 +153,10 @@ namespace TrapezoidalMapConstructionAndQuery
      */
     void splitTrapezoids(TrapezoidalMap &tm, DirectedAcyclicGraph &dag, std::vector<size_t> trapezoidIndexes, const cg3::Segment2d &segment)
     {
-        // add segment and its endpoints to the map
+        /*
+         * we first add the segment and its endpoints to the map
+         * we save their indexes in the map for later use
+         */
         size_t leftEndpointIndex = tm.numberOfPoints();
         size_t rightEndpointIndex = leftEndpointIndex + 1;
         tm.addPoint(segment.p1());

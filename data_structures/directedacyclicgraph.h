@@ -7,15 +7,19 @@ class DirectedAcyclicGraph
 {
 public:
 
+    // constructor
     DirectedAcyclicGraph();
 
+    // getters
     const Node& getNode(const size_t index) const;
     Node& getNodeRef(const size_t index);
     const Node& getRoot() const;
     size_t numberOfNodes() const;
 
+    // setters
     void addNode(const Node& node);
     void addNodeAtIndex(const Node& node, const size_t index);
+
     void clear();
 
 

@@ -42,7 +42,7 @@ Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, co
  * @param bottom segment bounding the trapezoid from below
  * @param leftPoint endpoint of the segment bounding the trapezoid from left
  * @param rightPoint endpoint of the segment bounding the trapezoid from right
- * @param nodeIndex index in the dag of the trapezoid
+ * @param nodeIndex index of the trapezoid in the dag
  */
 Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint, const size_t nodeIndex) :
     top(top),
@@ -94,7 +94,7 @@ Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, co
  * @param upperRightNeighbor index in the map of the upper right neighbor
  * @param lowerLeftNeighbor index in the map of the lower left neighbor
  * @param lowerRightNeighbor index in the map of the lower right neighbor
- * @param nodeIndex index in the dag of the trapezoid
+ * @param nodeIndex index of the trapezoid in the dag
  */
 Trapezoid::Trapezoid(const cg3::Segment2d& top, const cg3::Segment2d& bottom, const cg3::Point2d& leftPoint, const cg3::Point2d& rightPoint,
           const size_t upperLeftNeighbor, const size_t upperRightNeighbor, const size_t lowerLeftNeighbor, const size_t lowerRightNeighbor, const size_t nodeIndex) :
@@ -149,7 +149,7 @@ const cg3::Point2d& Trapezoid::getRightPoint() const
 
 /**
  * @brief Trapezoid::getUpperLeftNeighbor gets index of the trapezoid's upper left neighbor
- * @return index in the map of the trapezoid's upper left neighbor
+ * @return index of the trapezoid's upper left neighbor in the map
  */
 size_t Trapezoid::getUpperLeftNeighbor() const
 {
@@ -158,7 +158,7 @@ size_t Trapezoid::getUpperLeftNeighbor() const
 
 /**
  * @brief Trapezoid::getUpperRightNeighbor gets index of the trapezoid's upper right neighbor
- * @return index in the map of the trapezoid's upper right neighbor
+ * @return index of the trapezoid's upper right neighbor in the map
  */
 size_t Trapezoid::getUpperRightNeighbor() const
 {
@@ -167,7 +167,7 @@ size_t Trapezoid::getUpperRightNeighbor() const
 
 /**
  * @brief Trapezoid::getLowerLeftNeighbor gets index of the trapezoid's lower left neighbor
- * @return index in the map of the trapezoid's lower left neighbor
+ * @return index of the trapezoid's lower left neighbor in the map
  */
 size_t Trapezoid::getLowerLeftNeighbor() const
 {
@@ -176,7 +176,7 @@ size_t Trapezoid::getLowerLeftNeighbor() const
 
 /**
  * @brief Trapezoid::getLowerRightNeighbor gets index of the trapezoid's lower right neighbor
- * @return index in the map of the trapezoid's lower right neighbor
+ * @return index of the trapezoid's lower right neighbor in the map
  */
 size_t Trapezoid::getLowerRightNeighbor() const
 {
@@ -265,7 +265,7 @@ void Trapezoid::setRightPoint(const cg3::Point2d& rightPoint)
 
 /**
  * @brief Trapezoid::setUpperLeftNeighbor sets upper left neighbor
- * @param upperLeftNeighbor index in the map of the upper left neighbor
+ * @param upperLeftNeighbor index of the upper left neighbor in the map
  */
 void Trapezoid::setUpperLeftNeighbor(const size_t upperLeftNeighbor)
 {
@@ -274,7 +274,7 @@ void Trapezoid::setUpperLeftNeighbor(const size_t upperLeftNeighbor)
 
 /**
  * @brief Trapezoid::setUpperRightNeighbor sets upper right neighbor
- * @param upperRightNeighbor index in the map of the upper right neighbor
+ * @param upperRightNeighbor index of the upper right neighbor in the map
  */
 void Trapezoid::setUpperRightNeighbor(const size_t upperRightNeighbor)
 {
@@ -283,7 +283,7 @@ void Trapezoid::setUpperRightNeighbor(const size_t upperRightNeighbor)
 
 /**
  * @brief Trapezoid::setLowerLeftNeighbor sets lower left neighbor
- * @param lowerLeftNeighbor index in the map of the lower left neighbor
+ * @param lowerLeftNeighbor index of the lower left neighbor in the map
  */
 void Trapezoid::setLowerLeftNeighbor(const size_t lowerLeftNeighbor)
 {
@@ -292,7 +292,7 @@ void Trapezoid::setLowerLeftNeighbor(const size_t lowerLeftNeighbor)
 
 /**
  * @brief Trapezoid::setLowerRightNeighbor sets lower right neighbor
- * @param lowerRightNeighbor index in the map of the lower right neighbor
+ * @param lowerRightNeighbor index of the lower right neighbor in the map
  */
 void Trapezoid::setLowerRightNeighbor(const size_t lowerRightNeighbor)
 {

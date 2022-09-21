@@ -7,7 +7,8 @@
 class Trapezoid
 {
 public:
-    // constants
+
+    // constant attribute
     static const size_t NUM_OF_VERTICES = 4;
 
     // constructors
@@ -46,16 +47,19 @@ public:
 
 private:
 
+    // segments and points which define the trapezoid
     cg3::Segment2d top;
     cg3::Segment2d bottom;
     cg3::Point2d leftPoint;
     cg3::Point2d rightPoint;
 
+    // indexes of the trapezoid's neighbors in the map
     size_t upperLeftNeighbor;
     size_t upperRightNeighbor;
     size_t lowerLeftNeighbor;
     size_t lowerRightNeighbor;
 
+    // index of the trapezoid in the dag
     size_t nodeIndex;
 };
 

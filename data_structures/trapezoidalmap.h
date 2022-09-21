@@ -9,8 +9,10 @@
 class TrapezoidalMap
 {
 public:
+    //constructor
     TrapezoidalMap(const cg3::BoundingBox2 bbox);
 
+    // getters
     const cg3::Point2d& getPointAtIndex(const size_t index) const;
     const cg3::Segment2d& getSegmentAtIndex(const size_t index) const;
     const Trapezoid& getTrapezoidAtIndex(const size_t index) const;
@@ -27,6 +29,7 @@ public:
     size_t numberOfSegments() const;
     size_t numberOfTrapezoids() const;
 
+    // setters
     void addPoint(const cg3::Point2d& point);
     void addPointAtIndex(const cg3::Point2d& point, const size_t index);
     void addSegment(const cg3::Segment2d& segment);
