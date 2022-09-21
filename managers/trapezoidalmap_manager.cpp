@@ -171,6 +171,7 @@ TrapezoidalMapManager::~TrapezoidalMapManager()
 void TrapezoidalMapManager::addSegmentToTrapezoidalMap(const cg3::Segment2d& segment)
 {
     TrapezoidalMapConstructionAndQuery::incrementalStep(drawableTrapezoidalMap, dag, segment);
+    TrapezoidalMapConstructionAndQuery::colorTrapezoids(drawableTrapezoidalMap);
 }
 
 /**

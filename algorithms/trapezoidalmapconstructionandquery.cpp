@@ -118,7 +118,7 @@ namespace TrapezoidalMapConstructionAndQuery
      * @param rightTrapezoidIndex index in the map of the right trapezoid to merge
      * @return the index of the merged trapezoid
      */
-    size_t merge(TrapezoidalMap &tm, const size_t leftTrapezoidIndex, const size_t rightTrapezoidIndex)
+    size_t merge(TrapezoidalMap& tm, const size_t leftTrapezoidIndex, const size_t rightTrapezoidIndex)
     {
         Trapezoid& leftTrapezoid = tm.getTrapezoidRefAtIndex(leftTrapezoidIndex);
         Trapezoid rightTrapezoid = tm.getTrapezoidAtIndex(rightTrapezoidIndex);
@@ -151,7 +151,7 @@ namespace TrapezoidalMapConstructionAndQuery
      * @param trapezoidIndexes a vector containing the indexes in the map of the intersected trapezoids
      * @param segment the segment being added to the map
      */
-    void splitTrapezoids(TrapezoidalMap &tm, DirectedAcyclicGraph &dag, std::vector<size_t> trapezoidIndexes, const cg3::Segment2d &segment)
+    void splitTrapezoids(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, std::vector<size_t>& trapezoidIndexes, const cg3::Segment2d& segment)
     {
         /*
          * we first add the segment and its endpoints to the map
@@ -168,19 +168,33 @@ namespace TrapezoidalMapConstructionAndQuery
         // trapezoidal map split
         std::vector<size_t> lastTwoTrapezoidsInserted(2, std::numeric_limits<size_t>::max());
         size_t mergeCandidate = std::numeric_limits<size_t>::max();
+
         for (size_t i = 0; i < trapezoidIndexes.size(); i++)
         {
-            // determine which type of split will be applied
+            // get the trapezoid on which the split will be applied
             Trapezoid splitTrapezoid = tm.getTrapezoidAtIndex(trapezoidIndexes[i]);
+
             bool leftTrapezoidExists = false;
             bool rightTrapezoidExists = false;
-
+            /*
+             * if the x-coordinate of the leftmost endpoint of the segment is bigger than that of the trapezoid's left point
+             * then the left trapezoid exists
+             */
             if (segment.p1().x() > splitTrapezoid.getLeftPoint().x())
                 leftTrapezoidExists = true;
+            /*
+             * if the x-coordinate of the rightmost endpoint of the segment is smaller than that of the trapezoid's right point
+             * then the right trapezoid exists
+             */
             if (segment.p2().x() < splitTrapezoid.getRightPoint().x())
                 rightTrapezoidExists = true;
 
-            // assing new trapezoids' indexes
+            /*
+             * the first available index is that of the intersected trapezoid
+             * the second one is that of the merged trapezoid (if it exists)
+             * the third one is the smallest unused index, namely the one corresponding to the number of trapezoids already in the map
+             * all the following indexes will simply be equal to the precedent index + 1
+             */
             std::list<size_t> availableIndexes;
             availableIndexes.push_back(trapezoidIndexes[i]);
             if (tm.getMergedTrapezoid() != std::numeric_limits<size_t>::max())
@@ -200,14 +214,17 @@ namespace TrapezoidalMapConstructionAndQuery
             size_t bottomTrapezoidLowerLeftNeighborIndex = std::numeric_limits<size_t>::max();
             size_t bottomTrapezoidLowerRightNeighborIndex = std::numeric_limits<size_t>::max();
 
+            // top trapezoid gets the first available index
             topTrapezoidIndex = availableIndexes.front();
             availableIndexes.pop_front();
 
+            // bottom trapezoid gets the first available index
             bottomTrapezoidIndex = availableIndexes.front();
             availableIndexes.pop_front();
 
             if (leftTrapezoidExists)
             {
+                // left trapezoid gets the first available index
                 if (!availableIndexes.empty())
                 {
                     leftTrapezoidIndex = availableIndexes.front();
@@ -216,11 +233,27 @@ namespace TrapezoidalMapConstructionAndQuery
                 else
                     leftTrapezoidIndex = bottomTrapezoidIndex + 1;
 
+                /*
+                 * if the left trapezoid exists it will always be
+                 * the upper left neighbor of the top trapezoid and
+                 * the lower left neighbor of the bottom trapezoid
+                 */
                 topTrapezoidUpperLeftNeighborIndex = leftTrapezoidIndex;
                 bottomTrapezoidLowerLeftNeighborIndex = leftTrapezoidIndex;
             }
             else
             {
+                /* if the left trapezoid does not exist
+                 * the top trapezoid will inherit the upper left neighbor from the split trapezoid
+                 * -----------------------------------------------------------------------------------------------------
+                 * the top trapezoid's lower left neighbor will be the last inserted top trapezoid (if it exists)
+                 * otherwise it won't have a lower left neighbor
+                 * -----------------------------------------------------------------------------------------------------
+                 * the bottom trapezoid's upper left neighbor will be the last inserted bottom trapezoid (if it exists)
+                 * otherwise it won't have an upper left neighbor
+                 * -----------------------------------------------------------------------------------------------------
+                 * the bottom trapezoid will inherit the lower left neighbor from the split trapezoid
+                 */
                 topTrapezoidUpperLeftNeighborIndex = splitTrapezoid.getUpperLeftNeighbor();
                 topTrapezoidLowerLeftNeighborIndex = lastTwoTrapezoidsInserted[0];
                 bottomTrapezoidUpperLeftNeighborIndex = lastTwoTrapezoidsInserted[1];
@@ -229,6 +262,7 @@ namespace TrapezoidalMapConstructionAndQuery
 
             if (rightTrapezoidExists)
             {
+                // right trapezoid gets the first available index
                 if (leftTrapezoidExists)
                     rightTrapezoidIndex = leftTrapezoidIndex + 1;
                 else if (!availableIndexes.empty())
@@ -239,11 +273,20 @@ namespace TrapezoidalMapConstructionAndQuery
                 else
                     rightTrapezoidIndex = bottomTrapezoidIndex + 1;
 
+                /*
+                 * if the right trapezoid exists it will always be
+                 * the upper right neighbor of the top trapezoid and
+                 * the lower right neighbor of the bottom trapezoid
+                 */
                 topTrapezoidUpperRightNeighborIndex = rightTrapezoidIndex;
                 bottomTrapezoidLowerRightNeighborIndex = rightTrapezoidIndex;
             }
             else
             {
+                /* if the right trapezoid does not exist
+                 * the top trapezoid will inherit the upper right neighbor from the split trapezoid and
+                 * the bottom trapezoid will inherit the lower right neighbor from the split trapezoid
+                 */
                 topTrapezoidUpperRightNeighborIndex = splitTrapezoid.getUpperRightNeighbor();
                 bottomTrapezoidLowerRightNeighborIndex = splitTrapezoid.getLowerRightNeighbor();
             }
@@ -253,6 +296,13 @@ namespace TrapezoidalMapConstructionAndQuery
             cg3::Point2d bottomTrapezoidLeftPoint = (leftTrapezoidExists) ? segment.p1() : splitTrapezoid.getLeftPoint();
             cg3::Point2d bottomTrapezoidRightPoint = (rightTrapezoidExists) ? segment.p2() : splitTrapezoid.getRightPoint();
 
+            /*
+             * the order of insertion in the map is:
+             * 1st, top trapezoid
+             * 2nd, bottom trapezoid
+             * 3rd left trapezoid (if it exists) otherwise right trapezoid (if it exists)
+             * 4th right trapezoid (if it exists and also does the left trapezoid)
+             */
             Trapezoid topTrapezoid = Trapezoid(splitTrapezoid.getTop(), segment, topTrapezoidLeftPoint, topTrapezoidRightPoint,
                                                topTrapezoidUpperLeftNeighborIndex, topTrapezoidUpperRightNeighborIndex, topTrapezoidLowerLeftNeighborIndex, std::numeric_limits<size_t>::max(),
                                                splitTrapezoid.getNodeIndex());
@@ -552,6 +602,16 @@ namespace TrapezoidalMapConstructionAndQuery
         std::vector<size_t> intersectedTrapezoidsIndexes = followSegment(tm, dag, orderedSegment);
 
         splitTrapezoids(tm, dag, intersectedTrapezoidsIndexes, orderedSegment);
+    }
+
+    /**
+     * @brief colorTrapezoids assign a random color to the trapezoids who don't already have one
+     * @param tm the drawable trapezoidal map
+     */
+    void colorTrapezoids(DrawableTrapezoidalMap& tm)
+    {
+        for (size_t i = tm.getTrapezoidColors().size(); i < tm.numberOfTrapezoids(); i++)
+            tm.setTrapezoidColor(tm.randomColor(), i);
     }
 
     /**
