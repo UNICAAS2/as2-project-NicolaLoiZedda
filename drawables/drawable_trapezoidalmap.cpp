@@ -14,6 +14,7 @@ DrawableTrapezoidalMap::DrawableTrapezoidalMap(const cg3::BoundingBox2 bbox) :
     trapezoidSize(1),
     selectedTrapezoid(std::numeric_limits<size_t>::max())
 {
+    srand(time(nullptr));
     initializeTrapezoidColors();
 }
 
@@ -128,16 +129,6 @@ const std::vector<cg3::Color>& DrawableTrapezoidalMap::getTrapezoidColors() cons
 }
 
 /**
- * @brief DrawableTrapezoidalMap::isTrapezoidColored checks if a trapezoid is already colored
- * @param index index of the trapezoid in the vector
- * @return true if the trapezoid is colored, false otherwise
- */
-bool DrawableTrapezoidalMap::isTrapezoidColored(const size_t index) const
-{
-    return (index < trapezoidColors.size());
-}
-
-/**
  * @brief DrawableTrapezoidalMap::getTrapezoidColor gets the color of the trapezoid at the index
  * @param index index of the trapezoid in the vector
  * @return the color assigned to the trapezoid at the index in the vector
@@ -233,9 +224,14 @@ void DrawableTrapezoidalMap::setSelectedTrapezoid(const size_t index)
     selectedTrapezoid = index;
 }
 
+/**
+ * @brief DrawableTrapezoidalMap::randomColor generates a random color
+ * @return a random color
+ */
 cg3::Color DrawableTrapezoidalMap::randomColor() const
 {
-    return cg3::Color(rand() % 230, rand() % 230, rand() % 230);
+    // we try not to generate too light colors to prevent confusions with the selected trapezoid
+    return cg3::Color(rand() % 200, rand() % 200, rand() % 200);
 }
 
 /**
@@ -244,7 +240,6 @@ cg3::Color DrawableTrapezoidalMap::randomColor() const
 void DrawableTrapezoidalMap::initializeTrapezoidColors()
 {
     trapezoidColors.resize(1);
-
     trapezoidColors[0] = randomColor();
 }
 

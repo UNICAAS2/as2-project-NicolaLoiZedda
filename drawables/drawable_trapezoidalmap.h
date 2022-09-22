@@ -23,7 +23,6 @@ public:
     const cg3::Color& getSelectedColor() const;
     const cg3::Color& getSegmentColor() const;
     const std::vector<cg3::Color>& getTrapezoidColors() const;
-    bool isTrapezoidColored(const size_t index) const;
     const cg3::Color& getTrapezoidColor(const size_t index) const;
 
     unsigned int getSegmentSize() const;
@@ -50,7 +49,6 @@ private:
     cg3::Color selectedColor;
     cg3::Color segmentColor;
     std::vector<cg3::Color> trapezoidColors;
-    //std::vector<bool> coloredVector;
 
     unsigned int segmentSize;
     unsigned int trapezoidSize;

@@ -53,9 +53,6 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
     //and see some examples. Avoid pointers, unless it is necessary!
 
 
-    srand(time(NULL));
-
-
     //UI setup
     ui->setupUi(this);
 

@@ -291,6 +291,13 @@ namespace TrapezoidalMapConstructionAndQuery
                 bottomTrapezoidLowerRightNeighborIndex = splitTrapezoid.getLowerRightNeighbor();
             }
 
+            /*
+             * sets the points defining the top and bottom trapezoids
+             * if the left trapezoid exists it means that the segment starts inside this trapezoid
+             * and the left endpoint of the segment will be used as left point of both the top and bottom trapezoids
+             * otherwise they will inherit the left point from the split trapezoid
+             * the right point is defined symmetrically
+             */
             cg3::Point2d topTrapezoidLeftPoint = (leftTrapezoidExists) ? segment.p1() : splitTrapezoid.getLeftPoint();
             cg3::Point2d topTrapezoidRightPoint = (rightTrapezoidExists) ? segment.p2() : splitTrapezoid.getRightPoint();
             cg3::Point2d bottomTrapezoidLeftPoint = (leftTrapezoidExists) ? segment.p1() : splitTrapezoid.getLeftPoint();
@@ -320,7 +327,7 @@ namespace TrapezoidalMapConstructionAndQuery
             if (rightTrapezoidExists)
                 tm.addTrapezoidAtIndex(rightTrapezoid, rightTrapezoidIndex);
 
-            // update old trapezoid neighbors
+            // update split trapezoid neighbors
             size_t splitTrapezoidUpperLeftNeighborIndex = splitTrapezoid.getUpperLeftNeighbor();
             if (splitTrapezoidUpperLeftNeighborIndex != std::numeric_limits<size_t>::max())
             {
@@ -337,7 +344,6 @@ namespace TrapezoidalMapConstructionAndQuery
                 else
                     tm.getTrapezoidRefAtIndex(splitTrapezoidLowerLeftNeighborIndex).setLowerRightNeighbor(bottomTrapezoidIndex);
             }
-
             size_t splitTrapezoidUpperRightNeighborIndex = splitTrapezoid.getUpperRightNeighbor();
             if (splitTrapezoidUpperRightNeighborIndex != std::numeric_limits<size_t>::max())
             {
@@ -355,6 +361,7 @@ namespace TrapezoidalMapConstructionAndQuery
                     tm.getTrapezoidRefAtIndex(splitTrapezoidLowerRightNeighborIndex).setLowerLeftNeighbor(bottomTrapezoidIndex);
             }
 
+            // if there was a previous split we update the neighbors of the last two trapezoids to the left
             if (!leftTrapezoidExists)
             {
                 if (lastTwoTrapezoidsInserted[0] != std::numeric_limits<size_t>::max())
@@ -372,9 +379,13 @@ namespace TrapezoidalMapConstructionAndQuery
                 tm.setMergedTrapezoid(std::numeric_limits<size_t>::max());
 
             // dag update
-            // segment intersects one trapezoid
+            /*
+             * segment intersects one trapezoid
+             * handles splitting in 4 or 2 trapezoids
+             */
             if (segment.p1().x() >= splitTrapezoid.getLeftPoint().x() && segment.p2().x() <= splitTrapezoid.getRightPoint().x())
             {
+                // assign indexes
                 size_t leftEndpointNodeIndex = splitTrapezoid.getNodeIndex();
                 size_t rightEndpointNodeIndex = dag.numberOfNodes();
                 size_t segmentNodeIndex = rightEndpointNodeIndex + 1;
@@ -394,6 +405,7 @@ namespace TrapezoidalMapConstructionAndQuery
                         rightTrapezoidNodeIndex = bottomTrapezoidNodeIndex + 1;
                 }
 
+                // create nodes
                 Node topTrapezoidNode = Node(Node::trapezoid_node, topTrapezoidIndex);
                 Node bottomTrapezoidNode = Node(Node::trapezoid_node, bottomTrapezoidIndex);
                 Node leftTrapezoidNode = Node(Node::trapezoid_node, leftTrapezoidIndex);
@@ -403,6 +415,8 @@ namespace TrapezoidalMapConstructionAndQuery
                 Node rightEndpointNode = Node(Node::point_node, rightEndpointIndex, segmentNodeIndex, rightTrapezoidNodeIndex);
                 Node segmentNode = Node(Node::segment_node, segmentIndex, topTrapezoidNodeIndex, bottomTrapezoidNodeIndex);
 
+
+                // add nodes to dag and set node index to the trapezoids
                 dag.addNodeAtIndex(leftEndpointNode, leftEndpointNodeIndex);
                 dag.addNodeAtIndex(rightEndpointNode, rightEndpointNodeIndex);
                 dag.addNodeAtIndex(segmentNode, segmentNodeIndex);
@@ -421,9 +435,13 @@ namespace TrapezoidalMapConstructionAndQuery
                     tm.getTrapezoidRefAtIndex(rightTrapezoidIndex).setNodeIndex(rightTrapezoidNodeIndex);
                 }
             }
-            // first of multiple trapezoids intersected by segment
+            /*
+             * first of multiple trapezoids intersected by segment
+             * handles splitting in 3 trapezoids with a left trapezoid (unless it coincides with the vertical line)
+             */
             else if (segment.p1().x() >= splitTrapezoid.getLeftPoint().x() && segment.p2().x() > splitTrapezoid.getRightPoint().x())
             {
+                // assign indexes
                 size_t leftEndpointNodeIndex = splitTrapezoid.getNodeIndex();
                 size_t segmentNodeIndex = dag.numberOfNodes();
                 size_t topTrapezoidNodeIndex = segmentNodeIndex + 1;
@@ -433,6 +451,7 @@ namespace TrapezoidalMapConstructionAndQuery
                 if (leftTrapezoidExists)
                     leftTrapezoidNodeIndex = bottomTrapezoidNodeIndex + 1;
 
+                // create nodes
                 Node topTrapezoidNode = Node(Node::trapezoid_node, topTrapezoidIndex);
                 Node bottomTrapezoidNode = Node(Node::trapezoid_node, bottomTrapezoidIndex);
                 Node leftTrapezoidNode = Node(Node::trapezoid_node, leftTrapezoidIndex);
@@ -440,6 +459,7 @@ namespace TrapezoidalMapConstructionAndQuery
                 Node leftEndpointNode = Node(Node::point_node, leftEndpointIndex, leftTrapezoidNodeIndex, segmentNodeIndex);
                 Node segmentNode = Node(Node::segment_node, segmentIndex, topTrapezoidNodeIndex, bottomTrapezoidNodeIndex);
 
+                // add nodes to dag and set node index to the trapezoids
                 dag.addNodeAtIndex(leftEndpointNode, leftEndpointNodeIndex);
                 dag.addNodeAtIndex(segmentNode, segmentNodeIndex);
                 dag.addNodeAtIndex(topTrapezoidNode, topTrapezoidNodeIndex);
@@ -452,101 +472,110 @@ namespace TrapezoidalMapConstructionAndQuery
                     tm.getTrapezoidRefAtIndex(leftTrapezoidIndex).setNodeIndex(leftTrapezoidNodeIndex);
                 }
             }
-            // trapezoid completely crossed by segment
+            /*
+             * trapezoid completely crossed by segment
+             * handles splitting in 2 trapezoids
+             */
             else if (segment.p1().x() < splitTrapezoid.getLeftPoint().x() && segment.p2().x() > splitTrapezoid.getRightPoint().x())
             {
+                // assign indexes
                 size_t segmentNodeIndex = splitTrapezoid.getNodeIndex();
                 size_t topTrapezoidNodeIndex;
                 size_t bottomTrapezoidNodeIndex;
 
-                if (lastTwoTrapezoidsInserted[mergeCandidate] != std::numeric_limits<size_t>::max())
+                if (mergeCandidate == 0)
                 {
-                    if (mergeCandidate == 0)
-                    {
-                        if (topTrapezoidIndex != tm.getMergedTrapezoid())
-                        {
-                            topTrapezoidNodeIndex = dag.numberOfNodes();
-                            bottomTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
-                        }
-                        else
-                        {
-                            topTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
-                            topTrapezoidNodeIndex = tm.getTrapezoidAtIndex(topTrapezoidIndex).getNodeIndex();
-                            bottomTrapezoidNodeIndex = dag.numberOfNodes();
-                        }
-                    }
-                    else
+                    if (topTrapezoidIndex != tm.getMergedTrapezoid())
                     {
                         topTrapezoidNodeIndex = dag.numberOfNodes();
+                        bottomTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
+                    }
+                    // if the top trapezoid got merged we use the index of the top trapezoid of the previous split
+                    else
+                    {
+                        topTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
+                        topTrapezoidNodeIndex = tm.getTrapezoidAtIndex(topTrapezoidIndex).getNodeIndex();
+                        bottomTrapezoidNodeIndex = dag.numberOfNodes();
+                    }
+                }
+                else
+                {
+                    topTrapezoidNodeIndex = dag.numberOfNodes();
 
-                        if (bottomTrapezoidIndex != tm.getMergedTrapezoid())
-                            bottomTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
-                        else
-                        {
-                            bottomTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
-                            bottomTrapezoidNodeIndex = tm.getTrapezoidAtIndex(bottomTrapezoidIndex).getNodeIndex();
-                        }
+                    if (bottomTrapezoidIndex != tm.getMergedTrapezoid())
+                        bottomTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
+                    // if the bottom trapezoid got merged we use the index of the bottom trapezoid of the previous split
+                    else
+                    {
+                        bottomTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
+                        bottomTrapezoidNodeIndex = tm.getTrapezoidAtIndex(bottomTrapezoidIndex).getNodeIndex();
                     }
                 }
 
+                // create nodes
                 Node segmentNode = Node(Node::segment_node, segmentIndex, topTrapezoidNodeIndex, bottomTrapezoidNodeIndex);
                 Node topTrapezoidNode = Node(Node::trapezoid_node, topTrapezoidIndex);
                 Node bottomTrapezoidNode = Node(Node::trapezoid_node, bottomTrapezoidIndex);
 
+                // add nodes to dag and set node index to the trapezoids
                 dag.addNodeAtIndex(segmentNode, segmentNodeIndex);
                 dag.addNodeAtIndex(topTrapezoidNode, topTrapezoidNodeIndex);
                 tm.getTrapezoidRefAtIndex(topTrapezoidIndex).setNodeIndex(topTrapezoidNodeIndex);
                 dag.addNodeAtIndex(bottomTrapezoidNode, bottomTrapezoidNodeIndex);
                 tm.getTrapezoidRefAtIndex(bottomTrapezoidIndex).setNodeIndex(bottomTrapezoidNodeIndex);
             }
-            // last of multiple trapezoids intersected by segment
+            /*
+             * last of multiple trapezoids intersected by segment
+             * handles splitting in 3 trapezoids with a right trapezoid (unless it coincides with the vertical line)
+             */
             else if (segment.p1().x() < splitTrapezoid.getLeftPoint().x() && segment.p2().x() <= splitTrapezoid.getRightPoint().x())
             {
+                // assign indexes
                 size_t rightEndpointNodeIndex = splitTrapezoid.getNodeIndex();
                 size_t segmentNodeIndex = dag.numberOfNodes();
                 size_t topTrapezoidNodeIndex;
                 size_t bottomTrapezoidNodeIndex;
                 size_t rightTrapezoidNodeIndex = std::numeric_limits<size_t>::max();
 
-                if (lastTwoTrapezoidsInserted[mergeCandidate] != std::numeric_limits<size_t>::max())
+                if (mergeCandidate == 0)
                 {
-                    if (mergeCandidate == 0)
-                    {
-                        if (topTrapezoidIndex != tm.getMergedTrapezoid())
-                        {
-                            topTrapezoidNodeIndex = segmentNodeIndex + 1;
-                            bottomTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
-                        }
-                        else
-                        {
-                            topTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
-                            topTrapezoidNodeIndex = tm.getTrapezoidAtIndex(topTrapezoidIndex).getNodeIndex();
-                            bottomTrapezoidNodeIndex = segmentNodeIndex + 1;
-                        }
-
-                        if (rightTrapezoidExists)
-                            rightTrapezoidNodeIndex = bottomTrapezoidNodeIndex + 1;
-                    }
-                    else
+                    if (topTrapezoidIndex != tm.getMergedTrapezoid())
                     {
                         topTrapezoidNodeIndex = segmentNodeIndex + 1;
+                        bottomTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
+                    }
+                    // if the top trapezoid got merged we use the index of the top trapezoid of the previous split
+                    else
+                    {
+                        topTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
+                        topTrapezoidNodeIndex = tm.getTrapezoidAtIndex(topTrapezoidIndex).getNodeIndex();
+                        bottomTrapezoidNodeIndex = segmentNodeIndex + 1;
+                    }
 
-                        if (bottomTrapezoidIndex != tm.getMergedTrapezoid())
-                        {
-                            bottomTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
-                            rightTrapezoidNodeIndex = bottomTrapezoidNodeIndex + 1;
-                        }
-                        else
-                        {
-                            bottomTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
-                            bottomTrapezoidNodeIndex = tm.getTrapezoidAtIndex(bottomTrapezoidIndex).getNodeIndex();
+                    if (rightTrapezoidExists)
+                        rightTrapezoidNodeIndex = bottomTrapezoidNodeIndex + 1;
+                }
+                else
+                {
+                    topTrapezoidNodeIndex = segmentNodeIndex + 1;
 
-                            if (rightTrapezoidExists)
-                                rightTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
-                        }
+                    if (bottomTrapezoidIndex != tm.getMergedTrapezoid())
+                    {
+                        bottomTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
+                        rightTrapezoidNodeIndex = bottomTrapezoidNodeIndex + 1;
+                    }
+                    // if the bottom trapezoid got merged we use the index of the bottom trapezoid of the previous split
+                    else
+                    {
+                        bottomTrapezoidIndex = lastTwoTrapezoidsInserted[mergeCandidate];
+                        bottomTrapezoidNodeIndex = tm.getTrapezoidAtIndex(bottomTrapezoidIndex).getNodeIndex();
+
+                        if (rightTrapezoidExists)
+                            rightTrapezoidNodeIndex = topTrapezoidNodeIndex + 1;
                     }
                 }
 
+                // create nodes
                 Node topTrapezoidNode = Node(Node::trapezoid_node, topTrapezoidIndex);
                 Node bottomTrapezoidNode = Node(Node::trapezoid_node, bottomTrapezoidIndex);
                 Node rightTrapezoidNode = Node(Node::trapezoid_node, rightTrapezoidIndex);
@@ -555,6 +584,7 @@ namespace TrapezoidalMapConstructionAndQuery
 
                 Node segmentNode = Node(Node::segment_node, segmentIndex, topTrapezoidNodeIndex, bottomTrapezoidNodeIndex);
 
+                // add nodes to dag and set node index to the trapezoids
                 dag.addNodeAtIndex(rightEndpointNode, rightEndpointNodeIndex);
                 dag.addNodeAtIndex(segmentNode, segmentNodeIndex);
                 if (topTrapezoidNodeIndex == dag.numberOfNodes())
@@ -574,17 +604,22 @@ namespace TrapezoidalMapConstructionAndQuery
                 }
             }
 
+            /*
+             * we save the top and bottom trapezoid indexes to update their neighbors after the next split and to perform the merge
+             * we always save the top trapezoid at index 0 and the bottom one at index 1
+             * so we use mergecandidate to know which of the two trapezoids is elegible for merging
+             */
             if (cg3::isPointAtLeft(segment, splitTrapezoid.getRightPoint()))
             {
                 mergeCandidate = 1;
-                lastTwoTrapezoidsInserted[0] = (rightTrapezoidIndex == std::numeric_limits<size_t>::max()) ? topTrapezoidIndex : std::numeric_limits<size_t>::max();
+                lastTwoTrapezoidsInserted[0] = topTrapezoidIndex;
                 lastTwoTrapezoidsInserted[1] = bottomTrapezoidIndex;
             }
             else
             {
                 mergeCandidate = 0;
                 lastTwoTrapezoidsInserted[0] = topTrapezoidIndex;
-                lastTwoTrapezoidsInserted[1] = (rightTrapezoidIndex == std::numeric_limits<size_t>::max()) ? bottomTrapezoidIndex : std::numeric_limits<size_t>::max();
+                lastTwoTrapezoidsInserted[1] = bottomTrapezoidIndex;
             }
         }
     }
