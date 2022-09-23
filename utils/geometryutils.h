@@ -1,13 +1,13 @@
-#ifndef GEOMETRYFUNCTIONS_H
-#define GEOMETRYFUNCTIONS_H
+#ifndef GEOMETRYUTILS_H
+#define GEOMETRYUTILS_H
 
 #include <cg3/geometry/utils2.h>
 
-namespace GeometryFunctions
+namespace GeometryUtils
 {
     double slope(const cg3::Segment2d segment);
     double getVerticalLineAndSegmentIntersection(double verticalLineX, cg3::Segment2d segment);
     const cg3::Segment2d getOrderedSegment(const cg3::Segment2d segment);
 }
 
-#endif // GEOMETRYFUNCTIONS_H
+#endif // GEOMETRYUTILS_H

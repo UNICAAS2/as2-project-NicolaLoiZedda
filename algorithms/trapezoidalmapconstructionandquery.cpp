@@ -2,7 +2,7 @@
 
 #include "data_structures/trapezoidalmap_dataset.h"
 
-#include <algorithms/geometryfunctions.h>
+#include "utils/geometryutils.h"
 
 namespace TrapezoidalMapConstructionAndQuery
 {
@@ -72,7 +72,7 @@ namespace TrapezoidalMapConstructionAndQuery
                     node = dag.getNode(node.getLeftChild());
                 else if (cg3::isPointAtRight(nodeSegment, segment.p1()))
                     node = dag.getNode(node.getRightChild());
-                else if (GeometryFunctions::slope(segment) > GeometryFunctions::slope(nodeSegment))
+                else if (GeometryUtils::slope(segment) > GeometryUtils::slope(nodeSegment))
                     node = dag.getNode(node.getLeftChild());
                 else
                     node = dag.getNode(node.getRightChild());
@@ -632,7 +632,7 @@ namespace TrapezoidalMapConstructionAndQuery
      */
     void incrementalStep(TrapezoidalMap& tm, DirectedAcyclicGraph& dag, const cg3::Segment2d& segment)
     {
-        const cg3::Segment2d orderedSegment = GeometryFunctions::getOrderedSegment(segment);
+        const cg3::Segment2d orderedSegment = GeometryUtils::getOrderedSegment(segment);
 
         std::vector<size_t> intersectedTrapezoidsIndexes = followSegment(tm, dag, orderedSegment);
 

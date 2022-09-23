@@ -40,7 +40,6 @@ DISTFILES += \
     LICENSE
 
 SOURCES +=  \
-    algorithms/geometryfunctions.cpp \
     algorithms/trapezoidalmapconstructionandquery.cpp \
     data_structures/directedacyclicgraph.cpp \
     data_structures/node.cpp \
@@ -52,13 +51,13 @@ SOURCES +=  \
     drawables/drawable_trapezoidalmap_dataset.cpp \
     main.cpp \
     managers/trapezoidalmap_manager.cpp \
-    utils/fileutils.cpp
+    utils/fileutils.cpp \
+    utils/geometryutils.cpp
 
 FORMS += \
     managers/trapezoidalmapmanager.ui
 
 HEADERS += \
-    algorithms/geometryfunctions.h \
     algorithms/trapezoidalmapconstructionandquery.h \
     data_structures/directedacyclicgraph.h \
     data_structures/node.h \
@@ -69,7 +68,8 @@ HEADERS += \
     drawables/drawable_trapezoidalmap.h \
     drawables/drawable_trapezoidalmap_dataset.h \
     managers/trapezoidalmap_manager.h \
-    utils/fileutils.h
+    utils/fileutils.h \
+    utils/geometryutils.h
 
 
 

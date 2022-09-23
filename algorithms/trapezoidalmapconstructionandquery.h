@@ -7,6 +7,7 @@
 #include <data_structures/trapezoidalmap.h>
 #include <drawables/drawable_trapezoidalmap.h>
 
+// algorithms which use the trapezoidal map and dag data structures to perform the construction and query of a trapezoidal map
 namespace TrapezoidalMapConstructionAndQuery
 {
     size_t getTrapezoidFromPoint(const TrapezoidalMap& tm, const DirectedAcyclicGraph& dag, const cg3::Point2d& queryPoint);

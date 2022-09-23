@@ -1,6 +1,6 @@
-#include "geometryfunctions.h"
+#include "geometryutils.h"
 
-namespace GeometryFunctions
+namespace GeometryUtils
 {
 /**
      * @brief slope calculates the slope of a segment

@@ -4,6 +4,11 @@
 #include <cg3/geometry/point2.h>
 #include <cg3/geometry/segment2.h>
 
+/*
+ * a trapezoid is defined by 2 segments and 2 points which bound it respectively vertically and horizontally
+ * it also holds 4 indexes representing each of its possible neighbors
+ * finally, it keeps another index which refers to the position of the node associated to the trapezoid in the dag vector
+ */
 class Trapezoid
 {
 public:

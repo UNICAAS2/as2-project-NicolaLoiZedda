@@ -6,9 +6,17 @@
 #include <cg3/geometry/bounding_box2.h>
 #include <data_structures/trapezoid.h>
 
+/*
+ * it contains 3 vectors, one containing all the points, one containing all the segments and another one containing all the trapezoids
+ * it also holds the bounding box to generate the starting trapezoid of the map and
+ * an index used to locate the last merged trapezoid
+ * this allows newly created trapezoids to “take” the index of unused trapezoids guaranteeing the size of the trapezoids vector
+ * to be equal to n+1 in the worst case, where n is the number of active trapezoids
+ */
 class TrapezoidalMap
 {
 public:
+
     //constructor
     TrapezoidalMap(const cg3::BoundingBox2 bbox);
 
@@ -42,6 +50,7 @@ public:
     void clear();
 
 private:
+
     std::vector<cg3::Point2d> points;
     std::vector<cg3::Segment2d> segments;
     std::vector<Trapezoid> trapezoids;

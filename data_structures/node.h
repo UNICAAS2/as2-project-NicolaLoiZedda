@@ -4,6 +4,11 @@
 #include <cg3/geometry/point2.h>
 #include <cg3/geometry/segment2.h>
 
+/*
+ * a node is the single element of the dag vector, it represents each geometry element in the canvas
+ * it holds the index of the element in the trapezoidal map
+ * and a "type” attribute used in order to distinguish the type of element the node refers to
+ */
 class Node
 {
 public:

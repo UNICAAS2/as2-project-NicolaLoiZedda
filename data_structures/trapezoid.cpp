@@ -1,6 +1,6 @@
 #include "trapezoid.h"
 
-#include <algorithms/geometryfunctions.h>
+#include "utils/geometryutils.h"
 
 /**
  * @brief Trapezoid::Trapezoid trapezoid constructor
@@ -202,25 +202,25 @@ const std::array<cg3::Point2d, Trapezoid::NUM_OF_VERTICES> Trapezoid::getVertice
 
     // top left vertex
     if (getTop().p1() != getLeftPoint())
-        vertices[0] = cg3::Point2d(leftPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(leftPoint.x(), top));
+        vertices[0] = cg3::Point2d(leftPoint.x(), GeometryUtils::getVerticalLineAndSegmentIntersection(leftPoint.x(), top));
     else
         vertices[0] = getLeftPoint();
 
     // top right vertex
     if (getTop().p2() != getRightPoint())
-        vertices[1] = cg3::Point2d(rightPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(rightPoint.x(), top));
+        vertices[1] = cg3::Point2d(rightPoint.x(), GeometryUtils::getVerticalLineAndSegmentIntersection(rightPoint.x(), top));
     else
         vertices[1] = getRightPoint();
 
     // bottom right vertex
     if (getBottom().p2() != getRightPoint())
-        vertices[2] = cg3::Point2d(rightPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(rightPoint.x(), bottom));
+        vertices[2] = cg3::Point2d(rightPoint.x(), GeometryUtils::getVerticalLineAndSegmentIntersection(rightPoint.x(), bottom));
     else
         vertices[2] = getRightPoint();
 
     // bottom left vertex
     if (getBottom().p1() != getLeftPoint())
-        vertices[3] = cg3::Point2d(leftPoint.x(), GeometryFunctions::getVerticalLineAndSegmentIntersection(leftPoint.x(), bottom));
+        vertices[3] = cg3::Point2d(leftPoint.x(), GeometryUtils::getVerticalLineAndSegmentIntersection(leftPoint.x(), bottom));
     else
         vertices[3] = getLeftPoint();
 

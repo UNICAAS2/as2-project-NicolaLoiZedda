@@ -3,6 +3,7 @@
 
 #include <data_structures/node.h>
 
+// the dag is represented simply by a vector of Node type
 class DirectedAcyclicGraph
 {
 public:
